@@ -82,7 +82,6 @@ class errorBarHist(object):
             oldError = self.errorHist.GetBinError(x)
             addError = theHist.GetBinContent(x) # /2. ? its difficult
             newError = sqrt(oldError * oldError + addError * addError) 
-
             self.errorHist.SetBinError(x, newError)
     
 

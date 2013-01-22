@@ -355,9 +355,7 @@ class plotClass(object):
             compareError.Divide(denumerator)
             for i in range(compare.GetNbinsX()):
                 compareError.SetBinContent(i, compareError.GetBinContent(i) - 1)
-                compareError.SetBinError(i, compareError.GetBinError(i))#/denumerator.GetBinContent(i))
                 compare.SetBinContent(i, compare.GetBinContent(i) - 1)
-                
             compare.GetYaxis().SetTitle("rel. difference")    
             newCompare = errorBarHist()
             newCompare.histo = compare
