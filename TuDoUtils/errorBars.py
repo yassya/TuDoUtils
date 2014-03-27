@@ -82,6 +82,7 @@ class errorBarHist(object):
             oldError = self.errorHist.GetBinError(x)
             addError = theHist.GetBinContent(x) # /2. ? its difficult
             newError = sqrt(oldError * oldError + addError * addError) 
+
             self.errorHist.SetBinError(x, newError)
     
 
@@ -99,7 +100,8 @@ class errorBarHist(object):
 
     def GetMaximum(self):
         return self.histo.GetMaximum()
-    
+    def GetMinimum(self):
+        return self.histo.GetMinimum()
     def GetXaxis(self):
         return self.histo.GetXaxis()
     def GetYaxis(self):
@@ -107,8 +109,8 @@ class errorBarHist(object):
     
     def SetMinimum(self, minimum):
         self.histo.SetMinimum(minimum)
-    def SetMaximum(self, minimum):
-        self.histo.SetMaximum(minimum)
+    def SetMaximum(self, maximum):
+        self.histo.SetMaximum(maximum)
     def SetMarkerStyle(self, size):
         self.histo.SetMarkerStyle(size)
     def SetMarkerSize(self, size):
@@ -124,7 +126,7 @@ class errorBarHist(object):
             addError = addHist.errorHist.GetBinError(i) # /2. ? its difficult
             newError = sqrt(oldError * oldError + addError * addError) 
             self.errorHist.SetBinError(i, newError)
-            self.errorHist.SetBinContent(i, self.errorHist.GetBinContent(i)+addHist.errorHist.GetBinContent(i))
+            self.errorHist.SetBinContent(i, self.errorHist.GetBinContent(i) + addHist.errorHist.GetBinContent(i))
         
 class errorBarStack(object):
     def __init__(self, theHist=None):
@@ -209,7 +211,9 @@ class errorBarStack(object):
     def GetMaximum(self):
         
         return self.histo.GetMaximum()
-#    
+    def GetMinimum(self):
+        
+        return self.histo.GetMinimum()
     def GetXaxis(self):
         return self.histo.GetXaxis()
     def GetYaxis(self):
@@ -228,15 +232,15 @@ class errorBarStack(object):
         self.histo.SetLineColor(size)
     def Add(self, addHist):
         
-        i=0
-        addHists=addHist.histo.GetHists()
+        i = 0
+        addHists = addHist.histo.GetHists()
         for h in self.histo.GetHists():
             h.Add(addHists[i])
-            i+=1
+            i += 1
         
         for x in range(self.errorHist.GetNbinsX()):
             oldError = self.errorHist.GetBinError(x)
             addError = addHist.errorHist.GetBinError(x) # /2. ? its difficult
             newError = sqrt(oldError * oldError + addError * addError) 
             self.errorHist.SetBinError(x, newError)
-            self.errorHist.SetBinContent(x, self.errorHist.GetBinContent(x)+addHist.errorHist.GetBinContent(x))
+            self.errorHist.SetBinContent(x, self.errorHist.GetBinContent(x) + addHist.errorHist.GetBinContent(x))

@@ -2,10 +2,12 @@
 This is an example for the usage of the TuDoUtils package 
 Author: Christian Jung <christian.jung@udo.edu>
 '''
+import TuDoUtils
 from TuDoUtils.plotClass import plotClass
 from TuDoUtils.errorBars import *
 from ROOT import TH1F
 
+from math import floor
 
 # first we need to generate the object we are going to use
 myUtils = plotClass()
@@ -33,15 +35,18 @@ myUtils.xRange = (-4,4)
 # first a "data" thing which we want to compare to
 
 myFirstPlot = TH1F("myFirstPlot", "this is a gaussian!", 100, -5 , 5)
-myFirstPlot.FillRandom("gaus",800);
+myFirstPlot.Sumw2()
+myFirstPlot.FillRandom("gaus",floor(80000/254.4));
 myFirstPlot.SetMarkerStyle(20)
 myFirstPlot.SetLineColor(ROOT.kBlack)
 
 # this one will be the "simulation". We will scale it down a bit
 
 mySecondPlot = TH1F("mySecondPlot", "this is another one!!", 100, -5, 5)
-mySecondPlot.FillRandom("gaus",100000) # to have something to see in the ratio 
-mySecondPlot.Scale(0.008*0.95) # and get them to almost the same area
+mySecondPlot.Sumw2()
+mySecondPlot.FillRandom("gaus",floor(1000000000/254.4)) # to have something to see in the ratio 
+
+mySecondPlot.Scale(0.00008*0.8) # and get them to almost the same area
 mySecondPlot.SetLineColor(ROOT.kBlack)
 mySecondPlot.SetFillColor(ROOT.kRed)
 
@@ -49,7 +54,7 @@ mySecondPlot.SetFillColor(ROOT.kRed)
 
 #ok, we will build a simple 10% uncertainty on the yield
 mySecondPlotUncert = mySecondPlot.Clone("myUncertaintyBand")
-mySecondPlotUncert.Scale(1.1) # difference will be 10% per bin
+mySecondPlotUncert.Scale(1.2) # difference will be 10% per bin
 
 
 # now build an errorBarHist
@@ -77,8 +82,10 @@ myUtils.addPlot1D(myErrorBars, "Notice the error band?", "HIST")
 #and now lets draw that stuff
 #first and second argument are xpos and ypos of the legend
 #third argument specifies the plot which is the reference for the ratio
+myUtils.ratioTitle = "#frac{Data - Pred.}{Pred.}"
 myUtils.drawPlots(0.8,0.7,1)
 
+print(mySecondPlot.GetBinContent(50))
 
 myUtils.saveCanvas("example.pdf")
 
