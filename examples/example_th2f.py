@@ -4,9 +4,16 @@ Author: Christian Jung <christian.jung@udo.edu>
 '''
 from TuDoUtils.plotClass import plotClass
 import ROOT
-from ROOT import TH2F, TF1
+from ROOT import TH2F, TF1, gStyle
 
 def example():
+
+
+    ROOT.gROOT.ProcessLine(".x ../2DAnalysis/Helper/styles.cxx")
+    
+    ROOT.gROOT.SetStyle("ATLAS");
+    ROOT.gErrorIgnoreLevel = 1001
+    ROOT.gStyle.SetPalette(1)
 
     # first we need to generate the object we are going to use
     myUtils = plotClass()
@@ -48,7 +55,7 @@ def example():
     for i_evt  in range(100000):
         x,y=firstGaus.GetRandom(), sndGaus.GetRandom()
 #        print(x,y)
-        myFirstPlot.Fill(x,y)
+        myFirstPlot.Fill(x,y+x,0.00000001)
         
         
     mySndPlot = TH2F("mySecondPlot", "this is a 2D gaussian, too!",  200, -10 , 10,200,-10,10)
@@ -87,10 +94,12 @@ def example():
 #        print(x,y)
         myThirdPlot.Fill(x,y)
     
+#    myUtils.addPlot2D(myFirstPlot, "A nice 2D Gaussian", "BOX")
+#    myUtils.addPlot2D(mySndPlot, "Another nice 2D Gaussian", "BOX")
+#    myUtils.addPlot2D(myThirdPlot, "Yet another 2D Gaussian", "BOX")
     myUtils.addPlot2D(myFirstPlot, "A nice 2D Gaussian", "COLZ")
     myUtils.addPlot2D(mySndPlot, "Another nice 2D Gaussian", "COL")
     myUtils.addPlot2D(myThirdPlot, "Yet another 2D Gaussian", "COL")
-    
     
     #and now lets draw that stuff
     #first and second argument are xpos and ypos of the legend

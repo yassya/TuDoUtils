@@ -19,7 +19,7 @@
 import ROOT
 from ROOT import TCanvas, TH1D, TH1F, THStack, TF1, TLatex, TPave, TMarker, TPad, TList, TLine, TGraph, TGraphErrors, gStyle, TH2F, TH2D
 
-from math import sqrt,log
+from math import sqrt,log,log10,floor, ceil
 import gc
 
 from TuDoUtils.errorBars import *
@@ -435,7 +435,7 @@ class plotClass(object):
                     #plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
                     if maximum <= 0:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.2)
-                    elif log(maximum,10) > 4:
+                    elif log(maximum,10) > 4 or log(maximum,10) < 4:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.8)
                     else:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.6)
@@ -443,7 +443,7 @@ class plotClass(object):
                     #plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
                     if maximum <= 0:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    elif log(maximum,10) > 4:
+                    elif log(maximum,10) > 4 or log(maximum,10) < 4:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.6)
                     else:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.4)
@@ -620,6 +620,18 @@ class plotClass(object):
                 plot.thingToDraw.GetYaxis().SetLabelSize(self.size*1000)
                 plot.thingToDraw.GetYaxis().SetTitleFont(43)
                 plot.thingToDraw.GetYaxis().SetTitleSize(self.size*1000)
+                
+                if "COLZ" in plot.style:
+                    base=0.08 #min width for color legend
+                    
+                    digits = floor(log10(plot.thingToDraw.GetMaximum()))
+                    if digits < 0: # numbers lower than 0. 
+                        digits = - digits + 1.5 # flip sign as printed number gets bigger as more zeroes appear after decimal point. Also add .5 space for that very point
+                    if digits < 1:  # lower limit for digits
+                        digits = 1 
+                    if digits > 4.6: # upper limit. Here roots starts to print 10^{something}. Fix width for this
+                        digits = 3
+                    self.canvas.SetRightMargin(base+digits*0.01)
             
             
             if self.xRange[0] is not self.xRange[1]:
