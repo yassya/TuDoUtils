@@ -1,6 +1,6 @@
 '''
  <TuDoUtils --- A program for some nice plotting with ROOT.>
-    Copyright (C) 2013  Christian Jung
+    Copyright (C) 2013-2014  Christian Jung
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,16 +17,21 @@
 '''
 
 import ROOT
-from ROOT import TCanvas, TH1D, TH1F, THStack, TF1, TLatex, TPave, TMarker, TPad, TList, TLine, TGraph, TGraphErrors, gStyle
+from ROOT import TCanvas, TH1D, TH1F, THStack, TF1, TLatex, TPave, TMarker, TPad, TList, TLine, TGraph, TGraphErrors, gStyle, TH2F, TH2D
 
 from math import sqrt,log
 import gc
 
 from TuDoUtils.errorBars import *
 
+'''
+ 
+'''
+
 
 class plotClass(object):
     '''
+    @brief A class for holding objects to be drawn and to draw them 
     Handle for all the functions, can hold plots and stuff
     '''
 
@@ -34,6 +39,8 @@ class plotClass(object):
     def __init__(self):
         '''
         Constructor
+        Default values which should give decent results out of the box
+        Make sure to change the values of xTitle and yTitle
         '''
         
         gStyle.SetHatchesSpacing(2.3)
@@ -52,6 +59,8 @@ class plotClass(object):
         self.y_up_mult=1.3
         self.y_down_mult = 0
         self.xRange = (0, 0)
+        self.yRange = (0, 0) #only used for 2D histograms
+        self.is2D=-1 # -1 means unspecified
         
         self.xTitle = "Every time you forget the title, god kills a Phd student"
         self.yTitle = "I am a lazy student"
@@ -68,6 +77,11 @@ class plotClass(object):
                 
         gc.disable() # this will make the python garbage collection stop trying to clean up root objects
     def bookCanvas(self, xSize=1600, ySize=900):
+        '''
+        @brief book a ROOT TCanvas
+        @param xSize: size (in pixels) in the horizontal direction 
+        @param ySize: size (in pixels) in the vertical direction
+        '''
         self.canvas = TCanvas("TuDoUtils Canvas", "TuDoUtils Canvas", 10, 10, xSize, ySize)
 
         if self.doRatio == True:
@@ -116,6 +130,10 @@ class plotClass(object):
             
         
     def saveCanvas(self, fileName):
+        '''
+        @brief: save the canvas to a file
+        @param fileName: Target filename. ROOT will detect filetype by ending (e.g. .pdf will make a pdf) 
+        '''
         if self.canvas is None:
             print ("No canvas found, cannot save!")
             return None
@@ -127,7 +145,13 @@ class plotClass(object):
     
     def addText(self, text, xPos, yPos, color=ROOT.kBlack, textsize=0.05, angle=0):
         '''
-        adds text at (xPos,yPos) in color and size on the canvas
+        @brief: adds text at (xPos,yPos) in color and size on the canvas
+        @param text: Text to be drawn
+        @param xPos: Fractional horizontal poisition on the canvas (0 is leftmost, 1 is rightmost)  
+        @param yPos: Fractional vertical poisition on the canvas (1 is topmost, 0 is bottommost)
+        @param color: Color of the text. Default is black
+        @param textsize: Size of the text
+        @param angle: Angle of the text. The default, 0, is horizontal  
         '''
         if self.canvas is None:
             print("No canvas to paint on!")
@@ -143,7 +167,14 @@ class plotClass(object):
         
     def addBoxText(self, text, xPos, yPos, boxsize, color, fillstyle=1001):
         '''
-        adds a box with text at (xPos,yPos) in color and boxsize on the canvas
+        @brief: adds a box with text at (xPos,yPos) in color and boxsize on the canvas
+        @param text: Text to be added
+        @param xPos: Fractional horizontal poisition on the canvas (0 is leftmost, 1 is rightmost)  
+        @param yPos: Fractional vertical poisition on the canvas (1 is topmost, 0 is bottommost)
+        @param boxsize: Size of the bpx
+        @param color: Color of the box.
+        @param fillstyle: Style of the box content. Default is fine.  
+        
         '''        
         
         if self.addText(text, xPos, yPos, ROOT.kBlack, boxsize * 0.9) is None:
@@ -167,7 +198,13 @@ class plotClass(object):
         
     def addMarkerText(self, text, xPos, yPos, style, color, size=0.04):
         '''
-        adds a marker with text at (xPos,yPos) in color and size on the canvas
+        @brief adds a marker with text at (xPos,yPos) in color and size on the canvas
+        @param text: Text to be added
+        @param xPos: Fractional horizontal poisition on the canvas (0 is leftmost, 1 is rightmost)  
+        @param yPos: Fractional vertical poisition on the canvas (1 is topmost, 0 is bottommost)
+        @param style: Style of the marker. See ROOT.TAttStyle for details
+        @param color: Color of the marker
+        @param size: Size of the object  
         '''
         
         if self.addText(text, xPos, yPos, ROOT.kBlack, size * 0.9) is None:
@@ -184,7 +221,13 @@ class plotClass(object):
         
     def addLineText(self, text, xPos, yPos, style, color, size=0.04):
         '''
-        adds a line with text at (xPos,yPos) in color and size on the canvas
+        @brief adds a line with text at (xPos,yPos) in color and size on the canvas
+        @param text: Text to be added
+        @param xPos: Fractional horizontal poisition on the canvas (0 is leftmost, 1 is rightmost)  
+        @param yPos: Fractional vertical poisition on the canvas (1 is topmost, 0 is bottommost)
+        @param style: Style of the marker. See ROOT.TAttLine for details
+        @param color: Color of the marker
+        @param size: Size of the object  
         '''
         
         if self.addText(text, xPos, yPos, ROOT.kBlack, size * 0.9) is None:
@@ -201,7 +244,14 @@ class plotClass(object):
         line.Draw()
         
     def addATLASLabel(self, xPos, yPos, addText="Internal", size=0.04):
-        
+        '''
+        @brief adds a ATLAS label at (xPos,yPos) to the canvas
+        @param xPos: Fractional horizontal poisition on the canvas (0 is leftmost, 1 is rightmost)  
+        @param yPos: Fractional vertical poisition on the canvas (1 is topmost, 0 is bottommost)
+        @param addYext: Text to be added next to the label
+        @param size: Size of the text
+
+        '''  
         add = 0.8/100./size
         
         if self.doRatio:
@@ -222,18 +272,44 @@ class plotClass(object):
         
     def addPlot1D(self, thing, label, style):
         '''
-        This adds a TH1, THStack or TF1 to the drawList..
+        @brief This adds a TH1*, THStack, TGraph, or TF1 to the drawList..
+        @param thing: The object to be added
+        @param label: Label for the legend
+        @param style: ROOT-Draw() Style for that object  
         '''
+        if self.is2D==1:
+            print("This plotClass is configured to be 2D. Cannot add 1D Object")
+            return None
         plotType = type(thing)
         if plotType not in [type(errorBarHist()), type(errorBarStack()), type(TGraph()), type(TGraphErrors()), type(TH1D()), type(TH1F()), type(THStack()), type(TF1())]:
-            print(plotType, "is not drawable :(")
+            print(plotType, "is not drawable (in 1D) :(")
             return None
+        self.is2D=0
         self.stuffToDraw.append(toDraw(thing, label, style))
         
         
+    def addPlot2D(self, thing, label, style):
+        '''
+        @brief This adds a TH2* to the drawList..
+        @param thing: The object to be added
+        @param label: Label for the legend
+        @param style: ROOT-Draw() Style for that object  
+        '''
+        if self.is2D==0:
+            print("This plotClass is configured to be 1D. Cannot add 2D Object")
+            return None
+        plotType = type(thing)
+        if plotType not in [type(TH2D()), type(TH2F())]:
+            print(plotType, "is not drawable (in 2D) :(")
+            return None
+        self.is2D=1
+        self.stuffToDraw.append(toDraw(thing, label, style))
+        
+
+        
     def resetPlots(self):
         '''
-        This removes all plots and all other things from the lists
+        @brief This removes all plots and all other things from the lists
         '''
         
         self.stuffToDraw = []
@@ -242,8 +318,10 @@ class plotClass(object):
         
     def drawPlots(self, xPos=0.725, yPos=0.80, index=1):
         '''
-        This draws all the objects which where added with addPlot 
-        and builds a legend.
+        @brief: This draws all the objects which where added with addPlot and builds a legend.
+        @param xPos: Fractional horziontal Position of the legend
+        @param yPos: Fractional vertical Position of the legend
+        @param index: Index of the object for the ratio. See below for details  
         
         if self.doRatio is True it will also draw the ratio of the things, w.r.t
         to the (index-1)'th element in the list it got to draw,
@@ -251,16 +329,46 @@ class plotClass(object):
         
         xPos and yPos are the position of the legend  
         
-        @returns: list with chi2 residuals
+        @returns: list with chi2 residuals in 1D case. Otherwise None
         '''
         if len(self.stuffToDraw) == 0:
             print("Nothing to draw!")
+            return None
+        if self.canvas is None:
+            print("You did not book a canvas. I will do that for you")
+            self.bookCanvas()
+            
+        if self.is2D==0:
+            return(self.drawPlots1D(xPos, yPos, index))
+        elif self.is2D==1:
+            return(self.drawPlots2D(xPos, yPos, index))
+        else:
+            print("Cannot decicde if 2D or 1D. Probably this means that you did not add anything too draw yet..")
+            return None
+    def drawPlots1D(self, xPos=0.725, yPos=0.80, index=1):
+        '''
+        @brief: This draws all the objects which where added with addPlot and builds a legend.
+        @param xPos: Fractional horziontal Position of the legend
+        @param yPos: Fractional vertical Position of the legend
+        @param index: Index of the object for the ratio. See below for details  
+        
+        if self.doRatio is True it will also draw the ratio of the things, w.r.t
+        to the (index-1)'th element in the list it got to draw,
+        which is the index'th elemtent which was added
+        
+        xPos and yPos are the position of the legend  
+        
+        @returns: list with chi2 residuals 
+        '''
+        
+        if self.is2D!=0:
+            print("This instance does not have any 1D objects, aborting")
             return None
         if len(self.stuffToDraw) < 2 and self.doRatio == True:
             print("Too much stuff or to little stuff for a ratio...")
             return None
         
-        if self.canvas is None:
+        if self.canvas is None: #redundant f one calls drawPlots() but someone might skip that and then this is necessary 
             print("You did not book a canvas. I will do that for you")
             self.bookCanvas()
         
@@ -489,15 +597,50 @@ class plotClass(object):
  
         
 
-  
+
+    def drawPlots2D(self, xPos=0.725, yPos=0.80, index=1):
+        if self.is2D!=1:
+            print("This instance does not have any 2D histograms, aborting")
+            return None
         
+        same = ""
+
+        for plot in self.stuffToDraw:
+            
+            if same == "":
+                plot.thingToDraw.GetXaxis().SetTitle(self.xTitle)
+                plot.thingToDraw.GetXaxis().SetLabelFont(43)
+                plot.thingToDraw.GetXaxis().SetLabelSize(self.size*1000)
+                plot.thingToDraw.GetXaxis().SetTitleFont(43)
+                plot.thingToDraw.GetXaxis().SetTitleSize(self.size*1000)
+                
+                
+                plot.thingToDraw.GetYaxis().SetTitle(self.yTitle)
+                plot.thingToDraw.GetYaxis().SetLabelFont(43)
+                plot.thingToDraw.GetYaxis().SetLabelSize(self.size*1000)
+                plot.thingToDraw.GetYaxis().SetTitleFont(43)
+                plot.thingToDraw.GetYaxis().SetTitleSize(self.size*1000)
+            
+            
+            if self.xRange[0] is not self.xRange[1]:
+                plot.thingToDraw.GetXaxis().SetRangeUser(self.xRange[0], self.xRange[1])
+            if self.yRange[0] is not self.yRange[1]:
+                plot.thingToDraw.GetYaxis().SetRangeUser(self.yRange[0], self.yRange[1])
+            plot.drawPlot(same)     # first time same will be "" after that "SAME" 
+            same = "SAME"       # which is the wanted behaviour :)
+        for plot in self.stuffToDraw:
+            yPos = plot.drawLabel(self, xPos, yPos) # return value will be next free y value
+        self.canvas.RedrawAxis()
         
+        return None
     def divide(self, numerator, denumerator):
         
         """
-        calculates ratio between numerator and denumerator, depending on tpye
+        @brief calculates ratio between numerator and denumerator, depending on tpye
+        @param numerator: Numerator for the division
+        @param denumerator: Denumerator for the division 
         
-        returns: Histogram with ratio
+        @returns: Histogram with ratio
         """
         
         if type(denumerator) not in [type(TH1D()), type(TH1F())]:
@@ -659,7 +802,7 @@ class plotClass(object):
         
 class toDraw(object):
     '''
-        This is a handle for a thing to draw.. 
+        @brief This is a handle for a thing to draw.. 
     '''
     def __init__(self, thing, label, style):
         self.size = 0.04
@@ -671,8 +814,8 @@ class toDraw(object):
         
     def drawPlot(self, opt):
         '''
-        draw the plot with its one style 
-        and opt (most of the time "SAME"
+        @brief draw the plot with its  style 
+        @param opt:  Can add additional stuff to the drawstyle (most common is 'SAME')
         '''
         if type(self.thingToDraw) == type(TH1D()) or type(self.thingToDraw) == type(TH1F()):
             if "E" in self.style or "P" in self.style:
@@ -681,7 +824,10 @@ class toDraw(object):
         
     def drawLabel(self, utils, xPos, yPos):
         '''
-        draw the label, depending on type and linestyle
+        @brief: draw the label, depending on type and linestyle
+        @param utils: the plotClass object in use
+        @param xPos: Fractional horziontal Position of the legend
+        @param yPos: Fractional vertical Position of the legend
         '''
         labelsize = self.size*1.2
         if type(self.thingToDraw) == type(TH1D()) or type(self.thingToDraw) == type(TH1F()):
@@ -732,7 +878,10 @@ class toDraw(object):
                 else:
                     utils.addBoxText(self.label, xPos, yPos, labelsize, self.thingToDraw.histo.GetFillColor())
             return yPos - labelsize
-            
+        elif  type(self.thingToDraw) == type(TH2D()) or type(self.thingToDraw) == type(TH2F()):
+            if "BOX" in self.style:
+                utils.addBoxText(self.label, xPos, yPos, labelsize, self.thingToDraw.GetFillColor())
+                return yPos - labelsize
         else: # its a tf1 then...
             utils.addMarkerText(self.label, xPos, yPos, 8, self.thingToDraw.GetLineColor(), labelsize)
             return yPos - labelsize
