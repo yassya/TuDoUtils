@@ -55,7 +55,7 @@ def example():
     for i_evt  in range(100000):
         x,y=firstGaus.GetRandom(), sndGaus.GetRandom()
 #        print(x,y)
-        myFirstPlot.Fill(x,y+x,0.00000001)
+        myFirstPlot.Fill(x,y+x)
         
         
     mySndPlot = TH2F("mySecondPlot", "this is a 2D gaussian, too!",  200, -10 , 10,200,-10,10)
@@ -94,12 +94,12 @@ def example():
 #        print(x,y)
         myThirdPlot.Fill(x,y)
     
-#    myUtils.addPlot2D(myFirstPlot, "A nice 2D Gaussian", "BOX")
-#    myUtils.addPlot2D(mySndPlot, "Another nice 2D Gaussian", "BOX")
-#    myUtils.addPlot2D(myThirdPlot, "Yet another 2D Gaussian", "BOX")
-    myUtils.addPlot2D(myFirstPlot, "A nice 2D Gaussian", "COLZ")
-    myUtils.addPlot2D(mySndPlot, "Another nice 2D Gaussian", "COL")
-    myUtils.addPlot2D(myThirdPlot, "Yet another 2D Gaussian", "COL")
+    myUtils.addPlot2D(myFirstPlot, "A nice 2D Gaussian", "BOX2")
+    myUtils.addPlot2D(mySndPlot, "Another nice 2D Gaussian", "BOX")
+    myUtils.addPlot2D(myThirdPlot, "Yet another 2D Gaussian", "BOX")
+#    myUtils.addPlot2D(myFirstPlot, "A nice 2D Gaussian", "COLZ")
+#    myUtils.addPlot2D(mySndPlot, "Another nice 2D Gaussian", "COL")
+#    myUtils.addPlot2D(myThirdPlot, "Yet another 2D Gaussian", "COL")
     
     #and now lets draw that stuff
     #first and second argument are xpos and ypos of the legend

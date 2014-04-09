@@ -237,7 +237,7 @@ class plotClass(object):
         line = TLine(xPos - (0.055), yPos,xPos - (0.015),yPos)
         #print(color)
         line.SetLineColor(color)
-        line.SetNDC()
+        
         line.SetLineStyle(style)
         line.SetLineWidth(2)
         self.stuffToKeep.Add(line)
