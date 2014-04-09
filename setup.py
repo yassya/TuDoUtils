@@ -4,7 +4,7 @@ except ImportError:
   from distutils.core import setup
 
 config = {
-  'description': "My Project",
+  'description': "A small package for doing common things with ROOT",
   'author': "Christian Jung",
   'url': "https://github.com/yassya/TuDoUtils",
   'download_url': 'https://github.com/yassya/TuDoUtils',
