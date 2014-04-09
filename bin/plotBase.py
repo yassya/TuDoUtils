@@ -22,7 +22,8 @@ from ROOT import TCanvas, TH1D, TH1F, THStack, TF1, TLatex, TPave, TMarker, TPad
 from math import sqrt,log,log10,floor, ceil
 import gc
 
-from TuDoUtils.errorBars import *
+from TuDoUtils.bin.errorBars import *
+
 
 '''
  
@@ -55,7 +56,7 @@ class plotBase(object):
         self.pad1 = self.pad2 = None
         self.stuffToKeep = TList()
         self.y_up_mult=1.3
-        self.y_down_mult = 0
+        self.y_down_mult = 1
         self.xRange = (0, 0)
         self.yRange = (0, 0) #only used for 2D histograms
         
