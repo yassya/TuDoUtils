@@ -41,7 +41,7 @@ class simplePlotHolder(plotBase):
         '''
         self.yRange = (0, 0) #only used for 2D histograms
         self.is2D=-1 # -1 means unspecified
-        super().__init__()
+        simplePlotHolder.__init__(self)
 
       
 

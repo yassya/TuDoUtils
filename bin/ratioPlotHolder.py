@@ -50,7 +50,7 @@ class ratioPlotHolder(plotBase):
         self.ratioRange = 0.25
         self.ratioType = "EY"
         self.ratioTitle="rel. difference"
-        super().__init__()
+        plotBase.__init__(self)
                 
 
     def addPlot1D(self, thing, label, style):

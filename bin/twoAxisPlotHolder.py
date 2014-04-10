@@ -43,7 +43,7 @@ class twoAxisPlotHolder(plotBase):
         
         
         self.yTitleRight = "I'm still a lazy student"
-        super().__init__()
+        plotBase.__init__(self)
                 
 
 
@@ -223,9 +223,16 @@ class twoAxisPlotHolder(plotBase):
                 func_index=self.stuffToDraw.index(plot)
             if not self.logy:
                 if type(plot.thingToDraw) is not type(TGraph()) and type(plot.thingToDraw) is not type(TGraphErrors()):
-                    plot.thingToDraw.SetMinimum(0)
-                    
-                    plot.thingToDraw.SetMaximum(maximum)
+                    if plot.leftAxis == True:
+                        plot.thingToDraw.SetMinimum(minimum)
+                        
+                        plot.thingToDraw.SetMaximum(maximum)
+                    else:
+                        plot.thingToDraw.SetMinimum(minimum_right)
+                        
+                        plot.thingToDraw.SetMaximum(maximum_right)
+                        plot.thingToDraw.GetYaxis().SetTickLength(0)
+                        plot.thingToDraw.GetYaxis().SetLabelOffset(99999.)
                 else:
                     plot.thingToDraw.SetMinimum(minimum)
                     plot.thingToDraw.SetMaximum(maximum)
@@ -250,7 +257,8 @@ class twoAxisPlotHolder(plotBase):
         firstIndex = -1
         same = ""
 
-        self.pad2.Range(self.xRange[0], minimum, self.xRange[1], maximum) 
+        
+        
         self.pad2.Draw()    
         self.pad2.cd()
         for plot in [x for x in self.stuffToDraw if x.leftAxis==False]:
@@ -312,4 +320,4 @@ class twoAxesToDraw(toDraw): #if it quacks like a duck...
     """
     def __init__(self, thing, label, style, leftAxis):
         self.leftAxis=leftAxis
-        super().__init__(thing, label, style)
+        toDraw.__init__(self,thing, label, style)
