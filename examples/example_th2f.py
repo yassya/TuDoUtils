@@ -2,7 +2,7 @@
 This is an example for the usage of the TuDoUtils class
 Author: Christian Jung <christian.jung@udo.edu>
 '''
-from TuDoUtils.plotClass import plotClass
+from TuDoUtils.simplePlotHolder import simplePlotHolder
 import ROOT
 from ROOT import TH2F, TF1, gStyle
 
@@ -16,7 +16,7 @@ def example():
     ROOT.gStyle.SetPalette(1)
 
     # first we need to generate the object we are going to use
-    myUtils = plotClass()
+    myUtils = simplePlotHolder()
     
     #axis labels. I recommend setting them
     myUtils.xTitle = "some title for the x-axis"

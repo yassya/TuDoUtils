@@ -22,8 +22,8 @@ from ROOT import TCanvas, TH1D, TH1F, THStack, TF1, TLatex, TPave, TMarker, TPad
 from math import sqrt,log,log10,floor, ceil
 import gc
 
-from TuDoUtils.bin.plotBase import plotBase, toDraw
-from TuDoUtils.bin.errorBars import *
+from TuDoUtils.plotBase import plotBase, toDraw
+from TuDoUtils.errorBars import *
 
 
 class ratioPlotHolder(plotBase):

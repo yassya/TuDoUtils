@@ -22,8 +22,8 @@ from ROOT import TCanvas, TH1D, TH1F, THStack, TF1, TLatex, TPave, TMarker, TPad
 from math import sqrt,log,log10,floor, ceil
 import gc
 
-from TuDoUtils.bin.plotBase import plotBase
-from TuDoUtils.bin.errorBars import *
+from TuDoUtils.plotBase import plotBase
+from TuDoUtils.errorBars import *
 
 
 class simplePlotHolder(plotBase):
@@ -41,7 +41,7 @@ class simplePlotHolder(plotBase):
         '''
         self.yRange = (0, 0) #only used for 2D histograms
         self.is2D=-1 # -1 means unspecified
-        simplePlotHolder.__init__(self)
+        plotBase.__init__(self)
 
       
 

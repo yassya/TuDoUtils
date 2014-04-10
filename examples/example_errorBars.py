@@ -3,14 +3,14 @@ This is an example for the usage of the TuDoUtils package
 Author: Christian Jung <christian.jung@udo.edu>
 '''
 import TuDoUtils
-from TuDoUtils.plotClass import plotClass
+from TuDoUtils.ratioPlotHolder import ratioPlotHolder
 from TuDoUtils.errorBars import *
 from ROOT import TH1F
 
 from math import floor
 
 # first we need to generate the object we are going to use
-myUtils = plotClass()
+myUtils = ratioPlotHolder()
 
 #axis labels. I recommend setting them
 myUtils.xTitle = "some title for the x-axis"
