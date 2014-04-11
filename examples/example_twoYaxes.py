@@ -2,7 +2,7 @@
 This is an example for the usage of the TuDoUtils class
 Author: Christian Jung <christian.jung@udo.edu>
 '''
-from TuDoUtils.bin.twoAxisPlotHolder import twoAxisPlotHolder
+from TuDoUtils.twoAxisPlotHolder import twoAxisPlotHolder
 
 import ROOT
 from ROOT import TH1F

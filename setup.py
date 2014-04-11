@@ -13,7 +13,7 @@ config = {
   'install_requires': [], # TODO figure out how to require ROOT here
   'packages': ['TuDoUtils'],
   'scripts': [],
-  'name': 'A small class to draw ROOT object in a nice way'
+  'name': 'TuDoUtils'
 }
 
 setup(**config)

@@ -2,8 +2,8 @@
 This is an example for the usage of the TuDoUtils class
 Author: Christian Jung <christian.jung@udo.edu>
 '''
-from TuDoUtils.bin.simplePlotHolder import simplePlotHolder
-from TuDoUtils.bin.ratioPlotHolder import ratioPlotHolder
+from TuDoUtils.simplePlotHolder import simplePlotHolder
+from TuDoUtils.ratioPlotHolder import ratioPlotHolder
 import ROOT
 from ROOT import TH1F
 
@@ -13,11 +13,11 @@ def example():
     myUtils = ratioPlotHolder()
     
     #axis labels. I recommend setting them
-    myUtils.xTitle = "some title for the x-axis"
-    myUtils.yTitle = "something else for the y-axis"
+    # myUtils.xTitle = "some title for the x-axis"
+    # myUtils.yTitle = "something else for the y-axis"
     
     #plot a ratio at the bottom
-    #myUtils.doRatio = False #FIXME: Add ratio functionality later in
+
     myUtils.ratioRange = 0.5 # +- 50%
     
     # we will need a canvas i guess..
