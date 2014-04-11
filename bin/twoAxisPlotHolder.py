@@ -148,11 +148,11 @@ class twoAxisPlotHolder(plotBase):
         self.pad1.cd()
 
 
-        maximum = 0
-        minimum = 0
+        maximum = -999999999999999.
+        minimum = 99999999999999.
 
-        maximum_right = 0
-        minimum_right = 0
+        maximum_right = -999999999999999.
+        minimum_right = 99999999999999.
         for plot in self.stuffToDraw:
 
             """FIXME: Add Andreas Tgraph min/max calculation"""
@@ -161,17 +161,43 @@ class twoAxisPlotHolder(plotBase):
             if type(plot.thingToDraw) == type(errorBarHist()):
                 continue
             #print(maximum)
-            if plot.leftAxis==False:
-                if plot.thingToDraw.GetMaximum() * self.y_up_mult > maximum_right:
-                    maximum_right = plot.thingToDraw.GetMaximum() * self.y_up_mult
-                if plot.thingToDraw.GetMinimum() * self.y_down_mult < minimum_right:
-                    minimum_right= plot.thingToDraw.GetMinimum() * self.y_down_mult
-            else:
-                if plot.thingToDraw.GetMaximum() * self.y_up_mult > maximum:
-                    maximum = plot.thingToDraw.GetMaximum() * self.y_up_mult
-                if plot.thingToDraw.GetMinimum() * self.y_down_mult < minimum:
-                    minimum = plot.thingToDraw.GetMinimum() * self.y_down_mult
 
+
+
+            compare_maximum = 0
+            curr_maximum = 0
+            compare_minimum = 0
+            curr_minimum = 0
+
+            """
+            The absolute values are needed in case that the max/min values are smaller than 0
+            By doing it this way we can control the direction of the 'multiplication'
+            """
+            if type(plot.thingToDraw) == type(TGraph()) or type(plot.thingToDraw) == type(TGraphErrors()):
+                curr_maximum = plot.thingToDraw.GetHistogram().GetMaximum() 
+                compare_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
+                curr_minimum = plot.thingToDraw.GetHistogram().GetMinimum() 
+                compare_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
+            else:
+                curr_maximum = plot.thingToDraw.GetMaximum() 
+                compare_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
+                curr_minimum = plot.thingToDraw.GetMinimum() 
+                compare_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
+
+
+
+            if plot.leftAxis==False:
+                if compare_maximum > maximum_right:
+                    maximum_right = compare_maximum
+                if compare_minimum < minimum_right:
+                    minimum_right = compare_minimum
+            else:
+                if compare_maximum > maximum:
+                    maximum = compare_maximum
+                if compare_minimum < minimum:
+                    minimum = compare_minimum
+            print(plot.leftAxis, compare_minimum, compare_maximum)
+            print(minimum, maximum, "|", minimum_right, maximum_right)
         func_index=-1  #index of TF1 object, we want to draw that one last
         for plot in self.stuffToDraw:
         
@@ -234,8 +260,16 @@ class twoAxisPlotHolder(plotBase):
                         plot.thingToDraw.GetYaxis().SetTickLength(0)
                         plot.thingToDraw.GetYaxis().SetLabelOffset(99999.)
                 else:
-                    plot.thingToDraw.SetMinimum(minimum)
-                    plot.thingToDraw.SetMaximum(maximum)
+                    if plot.leftAxis == True:
+                        plot.thingToDraw.SetMinimum(minimum)
+                        
+                        plot.thingToDraw.SetMaximum(maximum)
+                    else:
+                        plot.thingToDraw.SetMinimum(minimum_right)
+                        
+                        plot.thingToDraw.SetMaximum(maximum_right)
+                        plot.thingToDraw.GetYaxis().SetTickLength(0)
+                        plot.thingToDraw.GetYaxis().SetLabelOffset(99999.)
         
 
 
@@ -248,15 +282,14 @@ class twoAxisPlotHolder(plotBase):
             plot.drawPlot(same)     
             same = "SAME"       
 
-                # and affterwards all the others
+         
+        print(same)
+        #self.stuffToDraw[firstIndex].drawPlot(same)        
         
-        self.stuffToDraw[firstIndex].drawPlot(same)        
-        
-
 
         firstIndex = -1
         same = ""
-
+       # and affterwards all the others
         
         
         self.pad2.Draw()    
@@ -305,8 +338,6 @@ class twoAxisPlotHolder(plotBase):
         # self.pad2.RedrawAxis()
         self.canvas.RedrawAxis()
 
-
-        #add the second axis
 
         self.pad1.cd()
         return None

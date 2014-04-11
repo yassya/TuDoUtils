@@ -55,8 +55,8 @@ class plotBase(object):
         self.logy = False
         self.pad1 = self.pad2 = None
         self.stuffToKeep = TList()
-        self.y_up_mult=1.3
-        self.y_down_mult = 1
+        self.y_up_mult=1.1
+        self.y_down_mult = 1.1
         self.xRange = (0, 0)
         self.yRange = (0, 0) #only used for 2D histograms
         
@@ -321,7 +321,7 @@ class toDraw(object):
                 yPos += labelsize*1.05
             return yPos - (len(self.thingToDraw.GetHists()) + 1) * labelsize
         elif type(self.thingToDraw) == type(TGraph()) or type(self.thingToDraw) == type(TGraphErrors()):
-
+            utils.addMarkerText(self.label, xPos, yPos, self.thingToDraw.GetMarkerStyle(), self.thingToDraw.GetMarkerColor(), labelsize)
             return(yPos - labelsize)
         elif type(self.thingToDraw) == type(errorBarStack()):
             yPos -= (len(self.thingToDraw.histo.GetHists()) + 1) * labelsize

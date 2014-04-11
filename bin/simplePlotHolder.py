@@ -41,7 +41,7 @@ class simplePlotHolder(plotBase):
         '''
         self.yRange = (0, 0) #only used for 2D histograms
         self.is2D=-1 # -1 means unspecified
-        simplePlotHolder.__init__(self)
+        plotBase.__init__(self)
 
       
 
@@ -93,9 +93,6 @@ class simplePlotHolder(plotBase):
         if self.is2D!=0:
             print("This instance does not have any 1D objects, aborting")
             return None
-        if len(self.stuffToDraw) < 2 and self.doRatio == True:
-            print("Too much stuff or to little stuff for a ratio...")
-            return None
         
         if self.canvas is None: #redundant f one calls drawPlots() but someone might skip that and then this is necessary 
             print("You did not book a canvas. I will do that for you")
@@ -116,10 +113,10 @@ class simplePlotHolder(plotBase):
             if type(plot.thingToDraw) == type(errorBarHist()):
                 continue
             #print(maximum)
-            if plot.thingToDraw.GetMaximum() * self.y_up_mult > maximum:
-                maximum = plot.thingToDraw.GetMaximum() * self.y_up_mult
-            if plot.thingToDraw.GetMinimum() * self.y_down_mult < minimum:
-                minimum = plot.thingToDraw.GetMinimum() * self.y_down_mult
+            if plot.thingToDraw.GetHistogram().GetMaximum() * self.y_up_mult > maximum:
+                maximum = plot.thingToDraw.GetHistogram().GetMaximum() * self.y_up_mult
+            if plot.thingToDraw.GetHistogram().GetMinimum() * self.y_down_mult < minimum:
+                minimum = plot.thingToDraw.GetHistogram().GetMinimum() * self.y_down_mult
                 
         same = ""
         
@@ -134,18 +131,12 @@ class simplePlotHolder(plotBase):
                 plot.thingToDraw.GetXaxis().SetLabelFont(43)
                 plot.thingToDraw.GetXaxis().SetLabelSize(self.size*1000)
                 plot.thingToDraw.GetXaxis().SetTitleFont(43)
-                if self.doRatio is True:
-                    plot.thingToDraw.GetXaxis().SetTitleSize(self.size*1000)
-                    plot.thingToDraw.GetXaxis().SetTitleOffset(1.8)
-                else:
-                    plot.thingToDraw.GetXaxis().SetTitleSize(self.size*1200)
-                    plot.thingToDraw.GetXaxis().SetTitleOffset(1.1)
+                plot.thingToDraw.GetXaxis().SetTitleSize(self.size*1200)
+                plot.thingToDraw.GetXaxis().SetTitleOffset(1.1)
                                
             if type(plot.thingToDraw) is not type(THStack()) and type(plot.thingToDraw) is not type(errorBarStack()):
                 plot.thingToDraw.GetYaxis().SetTitle(self.yTitle)
                 plot.thingToDraw.GetYaxis().SetLabelFont(43)
-                if self.doRatio==True:
-                    plot.thingToDraw.GetXaxis().SetLabelSize(0)
                 
                 plot.thingToDraw.GetYaxis().SetNdivisions(804,True)
                 plot.thingToDraw.GetYaxis().SetLabelSize(self.size*1000)
