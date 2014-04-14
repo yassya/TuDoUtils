@@ -90,7 +90,7 @@ class simplePlotHolder(plotBase):
         '''
         
         if self.is2D!=0:
-            print("This instance does not have any 1D objects, aborting")
+            raise(TypeError("This instance does not have any 1D histograms, aborting"))
             return None
         
         if self.canvas is None: #redundant f one calls drawPlots() but someone might skip that and then this is necessary 
