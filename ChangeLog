@@ -1,11 +1,120 @@
-Christian Jung <christian.jung@udo.edu>
-	* 22/01.13
-	* This is now a proper python package
+commit 5da1ac349fe8fd446cfe8d5be0c250bf8c75aecf
+Author: Andreas Gisen <andreas.gisen@tu-dortmund.de>
+Date:   Fri Apr 11 16:37:48 2014 +0200
 
+    Removed ratio stuff from simplePlotHolder.
+    Improved minimum and maximum finding.
+    
+    Signed-off-by: Andreas Gisen <andreas.gisen@tu-dortmund.de>
 
-Christian Jung <christian.jung@udo.edu>
-	* 21.01.203
-	* Version 1 ;)
+commit 24c011bab87d2e17667c5e5c5d70ac03dd6aa378
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Thu Apr 10 15:43:52 2014 +0200
 
+    Reverted the change from TuDoUtils to bin
+    
+    Made all examples run again
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
 
+commit 938ac68138f90576be9d83b78ec47f6afd2199f9
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Thu Apr 10 11:27:10 2014 +0200
 
+    Plots with Two axes somewhat works now. Hacky though
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 6198c121d6b764c35389ff8ec50a2034d5088a71
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Wed Apr 9 15:03:40 2014 +0200
+
+    Wrote new classes. Old functionality intact, tow y axis almost working as intended
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit a4b2ad6b2a0a4c871d19544c338de0d30521e5d1
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Wed Apr 9 09:47:36 2014 +0200
+
+    -Changed structure (TuDoUtils -> bin)
+    -initial changes allowing for different kinds of plots:
+    	-> plotClass to plotBase with 'abstract' drawPlots
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 5090e8de5f9907f5752bc76689e8fcedefa78541
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Wed Apr 9 09:26:01 2014 +0200
+
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 436affe4224deede0c9f6e60f83afcc5cd189c16
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Wed Apr 2 14:28:29 2014 +0200
+
+    Added automated margin calculation for drawing a TH2X with COLZ
+    
+    also, __init__.py ftw
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit f44b3043d0673efa775bd924922643cfadd9c93e
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Wed Apr 2 13:38:41 2014 +0200
+
+    Added rudimentary support for TH2X
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit c521993b0afcdd8ae59b2a0184a7fe210cfc1a1d
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Thu Mar 27 16:15:03 2014 +0100
+
+    Added a lot of Improvements by Hendrik and Me to the classes
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit b817b5e414f491a3c0f669dc916e6635f9d88369
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Tue Jan 22 11:39:14 2013 +0100
+
+    This is now a python package
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 512ae2f319b723d3be0d9cf25e3a4dda6cb6361e
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Tue Jan 22 11:12:23 2013 +0100
+
+    Intermediate step of making this a proper python package
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 669bac287b253c8b44127f8fd424ee8c065b2c28
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Mon Jan 21 16:41:44 2013 +0100
+
+    added statement about python version to readme
+
+commit 363cbb7f9a0b23d68987e94dacb101ed2dfb1eb7
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Mon Jan 21 16:28:55 2013 +0100
+
+    added reference for the example to the readme
+
+commit b9c5d8a13c5891b31dcf7ee2604491a0484e1921
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Mon Jan 21 16:25:51 2013 +0100
+
+    First commit for git-hub.
+    
+    Has some documentation, look at the tudoUtils_example.py
+    The new classes for the error-ranges do still need documentation
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit b394fb76bd0ce08c7b064a7d9ba31ac84127cf41
+Author: yassya <yassya@lotgd.de>
+Date:   Mon Jan 21 06:36:36 2013 -0800
+
+    Initial commit

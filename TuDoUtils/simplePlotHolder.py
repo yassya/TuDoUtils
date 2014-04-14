@@ -61,8 +61,7 @@ class simplePlotHolder(plotBase):
         @returns: list with chi2 residuals in 1D case. Otherwise None
         '''
         if len(self.stuffToDraw) == 0:
-            print("Nothing to draw!")
-            return None
+            riase(IndexError("Nothing to draw!"))
         if self.canvas is None:
             print("You did not book a canvas. I will do that for you")
             self.bookCanvas()
@@ -205,7 +204,7 @@ class simplePlotHolder(plotBase):
 
     def drawPlots2D(self, xPos=0.725, yPos=0.80, index=1):
         if self.is2D!=1:
-            print("This instance does not have any 2D histograms, aborting")
+            raise(TypeError("This instance does not have any 2D histograms, aborting"))
             return None
         
         same = ""

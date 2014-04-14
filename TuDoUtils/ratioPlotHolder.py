@@ -135,8 +135,7 @@ class ratioPlotHolder(plotBase):
         '''
         
         if len(self.stuffToDraw) < 2:
-            print("Too much stuff or to little stuff for a ratio...")
-            return None
+            raise(IndexError("Only one plot. Impossible to build a ratio"))
         
         if self.canvas is None: #redundant f one calls drawPlots() but someone might skip that and then this is necessary 
             print("You did not book a canvas. I will do that for you")
@@ -359,8 +358,8 @@ class ratioPlotHolder(plotBase):
         """
         
         if type(denumerator) not in [type(TH1D()), type(TH1F())]:
-            print("Can only compare with histograms right now, sorry :(")
-            return None
+            raise(TypeError("Can only compare with histograms right now, sorry :("))
+            
         if type(numerator) is type(TH1D()) or type(numerator) is type(TH1F()):
             compare = numerator.Clone("newNumerator")
             
@@ -507,7 +506,7 @@ class ratioPlotHolder(plotBase):
             return compare
             
         else:
-            print("You passed me a ", type(denumerator), "which I can't handle :(")
+            raise(TypeError("You passed me a ", type(denumerator), "which I can't handle :("))
             return None
         
         

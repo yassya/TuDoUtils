@@ -9,7 +9,7 @@ config = {
   'url': "https://github.com/yassya/TuDoUtils",
   'download_url': 'https://github.com/yassya/TuDoUtils',
   'author_email': 'christian.jung@udo.edu',
-  'version': '0.1',
+  'version': '0.1', 
   'install_requires': [], # TODO figure out how to require ROOT here
   'packages': ['TuDoUtils'],
   'scripts': [],

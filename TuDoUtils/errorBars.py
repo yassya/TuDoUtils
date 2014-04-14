@@ -29,42 +29,28 @@ class errorBarHist(object):
     def __init__(self, theHist=None):
         import gc
         gc.disable
+        self.keepList = TList()
         if theHist is None:
             
             self.histo = None
             self.errorHist = None
-            return
-        self.histo = theHist
-        self.errorHist = theHist.Clone(theHist.GetName() + "errors")
-        self.errorHist.SetFillColor(self.errorHist.GetLineColor())
-        
-        
-        self.keepList = TList()
-        self.keepList.Add(self.histo)
-        self.keepList.Add(self.errorHist)
-        
-        
-#            if self.errorHist.GetLineColor() != ROOT.kBlack:
-#                self.errorHist.SetFillColor(self.errorHist.GetLineColor()) # shade the dashes with the fill color...
-#                self.errorHist.SetLineColor(0) # ... and reset to white
-#                
-#            else:
-#                self.errorHist.SetLineColor(self.errorHist.GetFillColor())
-#                self.errorHist.SetFillColor(ROOT.kBlack)
-            
-            
-#            self.errorHist.Reset()
-        theColor = self.errorHist.GetFillColor()
-        
-        if theColor % 2 == 0:
-            self.errorHist.SetFillStyle(3154 + (self.errorHist.GetFillColor() % 2) * 100);
         else:
-            self.errorHist.SetFillStyle(3145 + ((self.errorHist.GetFillColor() + 1) % 2) * 100);
+            self.histo = theHist
+            self.errorHist = theHist.Clone(theHist.GetName() + "errors")
+            self.errorHist.SetFillColor(self.errorHist.GetLineColor())
+            self.keepList.Add(self.histo)
+            self.keepList.Add(self.errorHist)
+        
+            theColor = self.errorHist.GetFillColor()
+        
+            if theColor % 2 == 0:
+                self.errorHist.SetFillStyle(3154 + (self.errorHist.GetFillColor() % 2) * 100);
+            else:
+                self.errorHist.SetFillStyle(3145 + ((self.errorHist.GetFillColor() + 1) % 2) * 100);
 
     def addUncertUpDown(self, upHist, downHist):
         if self.errorHist is None:
-            print("Got no histAAogram. Please be careful")
-            return
+            raise(AttributeError("Got no histogram. Please be careful"))
         upHist.Add(downHist, -1)
         for x in range(self.errorHist.GetNbinsX()):
             oldError = self.errorHist.GetBinError(x)
@@ -75,8 +61,7 @@ class errorBarHist(object):
     
     def addUncertSingle(self, theHist):
         if self.errorHist is None:
-            print("Got no histogVVram. Please be careful")
-            return
+            raise(AttributeError("Got no histogram. Please be careful"))
         theHist.Add(self.histo, -1)
         for x in range(self.errorHist.GetNbinsX()):
             oldError = self.errorHist.GetBinError(x)
@@ -89,8 +74,7 @@ class errorBarHist(object):
     def Draw(self, drawOpt):
         
         if self.errorHist is None or self.histo is None:
-            print("Got no histogram. Please be careful")
-            return
+            raise(AttributeError("Got no histogram. Please be careful"))
         self.histo.Draw(drawOpt)    
 
         self.errorHist.Draw("E2SAME")
@@ -120,6 +104,10 @@ class errorBarHist(object):
     
     
     def Add(self, addHist):
+        if self.errorHist is None or self.histo is None:
+            raise(AttributeError("Got no histogram. Please be careful"))
+        if addHist is None:
+            raise(AttributeError("Got no histogram to add. Please be careful"))
         self.histo.Add(addHist.histo)
         for i in self.errorHist.GetNbinsX():
             oldError = self.errorHist.GetBinError(i)
@@ -136,38 +124,26 @@ class errorBarStack(object):
             
             self.histo = None
             self.errorHist = None
-            return
-        self.histo = theHist
-        self.errorHist = None
-        for hist in self.histo.GetHists():
-            if self.errorHist is None:
-                self.errorHist = hist.Clone("errors")
-            else:
-                self.errorHist.Add(hist)
-        self.errorHist.SetFillColor(ROOT.kBlack)
         
-        
-#            if self.errorHist.GetLineColor() != ROOT.kBlack:
-#                self.errorHist.SetFillColor(self.errorHist.GetLineColor()) # shade the dashes with the fill color...
-#                self.errorHist.SetLineColor(0) # ... and reset to white
-#                
-#            else:
-#                self.errorHist.SetLineColor(self.errorHist.GetFillColor())
-#                self.errorHist.SetFillColor(ROOT.kBlack)
-            
-            
-#            self.errorHist.Reset()
-        theColor = self.errorHist.GetFillColor()
-        
-        if theColor % 2 == 0:
-            self.errorHist.SetFillStyle(3154 + (self.errorHist.GetFillColor() % 2) * 100);
         else:
-            self.errorHist.SetFillStyle(3145 + ((self.errorHist.GetFillColor() + 1) % 2) * 100);
+            self.histo = theHist
+            self.errorHist = None
+            for hist in self.histo.GetHists():
+                if self.errorHist is None:
+                    self.errorHist = hist.Clone("errors")
+                else:
+                    self.errorHist.Add(hist)
+            self.errorHist.SetFillColor(ROOT.kBlack)
+            theColor = self.errorHist.GetFillColor()
+            
+            if theColor % 2 == 0:
+                self.errorHist.SetFillStyle(3154 + (self.errorHist.GetFillColor() % 2) * 100);
+            else:
+                self.errorHist.SetFillStyle(3145 + ((self.errorHist.GetFillColor() + 1) % 2) * 100);
 
     def addUncertUpDown(self, upHist, downHist):
         if self.errorHist is None:
-            print("Got no histAAogram. Please be careful")
-            return
+            raise(AttributeError("Got no histogram. Please be careful"))
         upHist.Add(downHist, -1)
         for x in range(self.errorHist.GetNbinsX()):
             oldError = self.errorHist.GetBinError(x)
@@ -179,8 +155,7 @@ class errorBarStack(object):
     
     def addUncertSingle(self, theHist):
         if self.errorHist is None:
-            print("Got no histogVVram. Please be careful")
-            return
+            raise(AttributeError("Got no histogram. Please be careful"))
         theHist.Add(self.errorHist, -1)
         for x in range(self.errorHist.GetNbinsX()):
             oldError = self.errorHist.GetBinError(x)
@@ -194,9 +169,7 @@ class errorBarStack(object):
     def Draw(self, drawOpt):
         
         if self.errorHist is None or self.histo is None:
-            print("Got no histogram. Please be careful")
-            return
-
+            raise(AttributeError("Got no histogram. Please be careful"))
         self.histo.Draw(drawOpt)    
         
         self.errorHist.GetXaxis().SetRangeUser(self.histo.GetXaxis().GetXmin(), self.histo.GetXaxis().GetXmax())

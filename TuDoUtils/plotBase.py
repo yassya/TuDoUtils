@@ -82,11 +82,9 @@ class plotBase(object):
         @param fileName: Target filename. ROOT will detect filetype by ending (e.g. .pdf will make a pdf) 
         '''
         if self.canvas is None:
-            print ("No canvas found, cannot save!")
-            return None
+            raise(AttributeError("No canvas found, cannot save!"))
         if type(fileName) != type(str()):
-            print (fileName, "is not a string!")
-            return None
+            raise(TypeError(str(fileName)+"is not a string!"))
         self.canvas.SaveAs(fileName)
         
     
@@ -101,8 +99,7 @@ class plotBase(object):
         @param angle: Angle of the text. The default, 0, is horizontal  
         '''
         if self.canvas is None:
-            print("No canvas to paint on!")
-            return None
+            raise(AttributeError("No canvas to paint on!"))
         l = TLatex()
         l.SetTextAlign(12)
         l.SetNDC()
@@ -225,12 +222,10 @@ class plotBase(object):
         @param style: ROOT-Draw() Style for that object  
         '''
         if self.is2D==1:
-            print("This plotClass is configured to be 2D. Cannot add 1D Object")
-            return None
+            raise(TypeError("This plotClass is configured to be 2D. Cannot add 1D Object"))
         plotType = type(thing)
         if plotType not in [type(errorBarHist()), type(errorBarStack()), type(TGraph()), type(TGraphErrors()), type(TH1D()), type(TH1F()), type(THStack()), type(TF1())]:
-            print(plotType, "is not drawable (in 1D) :(")
-            return None
+            raise(TypeError(plotType, "is not drawable (in 1D) :("))
         self.is2D=0
         self.stuffToDraw.append(toDraw(thing, label, style))
         
@@ -243,12 +238,10 @@ class plotBase(object):
         @param style: ROOT-Draw() Style for that object  
         '''
         if self.is2D==0:
-            print("This plotClass is configured to be 1D. Cannot add 2D Object")
-            return None
+            raise(TypeError("This plotClass is configured to be 1D. Cannot add 2D Object"))
         plotType = type(thing)
         if plotType not in [type(TH2D()), type(TH2F())]:
-            print(plotType, "is not drawable (in 2D) :(")
-            return None
+            raise(TypeError(plotType, "is not drawable (in 2D) :("))
         self.is2D=1
         self.stuffToDraw.append(toDraw(thing, label, style))
         

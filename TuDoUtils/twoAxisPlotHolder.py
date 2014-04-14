@@ -87,8 +87,7 @@ class twoAxisPlotHolder(plotBase):
 
         plotType = type(thing)
         if plotType not in [type(errorBarHist()), type(errorBarStack()), type(TGraph()), type(TGraphErrors()), type(TH1D()), type(TH1F()), type(THStack()), type(TF1())]:
-            print(plotType, "is not drawable (in 1D) :(")
-            return None
+            raise(TypeError(str(plotType) + "is not drawable (in 1D) :("))
         self.stuffToDraw.append(twoAxesToDraw(thing, label, style, leftAxis))
 
 
@@ -125,8 +124,8 @@ class twoAxisPlotHolder(plotBase):
         '''
         
         if len(self.stuffToDraw) < 2:
-            print("Too much stuff or to little stuff for two axes...")
-            return None
+            raise(IndexError("Need at least two plots for supporting two axes"))
+
         
         if self.canvas is None: #redundant f one calls drawPlots() but someone might skip that and then this is necessary 
             print("You did not book a canvas. I will do that for you")
@@ -153,6 +152,10 @@ class twoAxisPlotHolder(plotBase):
 
         maximum_right = -999999999999999.
         minimum_right = 99999999999999.
+
+
+        n_plots_left = 0
+        n_plots_right = 0 # these two are needed for checking if each side gets at least one plot
         for plot in self.stuffToDraw:
 
             """FIXME: Add Andreas Tgraph min/max calculation"""
@@ -187,17 +190,22 @@ class twoAxisPlotHolder(plotBase):
 
 
             if plot.leftAxis==False:
+                n_plots_right+=1
                 if compare_maximum > maximum_right:
                     maximum_right = compare_maximum
                 if compare_minimum < minimum_right:
                     minimum_right = compare_minimum
             else:
+                n_plots_left+=1
                 if compare_maximum > maximum:
                     maximum = compare_maximum
                 if compare_minimum < minimum:
                     minimum = compare_minimum
-            print(plot.leftAxis, compare_minimum, compare_maximum)
-            print(minimum, maximum, "|", minimum_right, maximum_right)
+
+        if n_plots_left == 0:
+            raise(IndexError("No plot for the left Y axis."))
+        if n_plots_right == 0:
+            raise(IndexError("No plot for the right Y axis."))
         func_index=-1  #index of TF1 object, we want to draw that one last
         for plot in self.stuffToDraw:
         
@@ -285,7 +293,10 @@ class twoAxisPlotHolder(plotBase):
          
         print(same)
         #self.stuffToDraw[firstIndex].drawPlot(same)        
-        
+        if firstIndex==-1 and type(self.stuffToDraw[0].thingToDraw) is not type(TGraphErrors()) and  type(self.stuffToDraw[0].thingToDraw) is not type(TGraph()):
+            self.stuffToDraw[0].drawPlot(same)
+        elif firstIndex != -1:
+            self.stuffToDraw[firstIndex].drawPlot(same)
 
         firstIndex = -1
         same = ""
@@ -297,12 +308,15 @@ class twoAxisPlotHolder(plotBase):
         for plot in [x for x in self.stuffToDraw if x.leftAxis==False]:
             if firstIndex == -1:
                 firstIndex=self.stuffToDraw.index(plot)
-        
-            print(1234)
             plot.drawPlot(same)     
             same = "SAME"      
-        
-        self.stuffToDraw[firstIndex].drawPlot(same)        
+        if firstIndex==-1 and type(self.stuffToDraw[0].thingToDraw) is not type(TGraphErrors()) and  type(self.stuffToDraw[0].thingToDraw) is not type(TGraph()):
+            self.stuffToDraw[0].drawPlot(same)
+        elif firstIndex != -1:
+            self.stuffToDraw[firstIndex].drawPlot(same)
+
+
+        # self.stuffToDraw[firstIndex].drawPlot(same)        
 
 
         if func_index != -1:
