@@ -101,22 +101,39 @@ class simplePlotHolder(plotBase):
 
         
 
-        maximum = 0
-        minimum = 0
+        maximum = -9999999999.
+        minimum = 9999999999.
         
         for plot in self.stuffToDraw:
 
-            """FIXME: Add Andreas Tgraph min/max calculation"""
             if type(plot.thingToDraw) == type(TF1()):
                 continue
             if type(plot.thingToDraw) == type(errorBarHist()):
                 continue
-            #print(maximum)
-            if plot.thingToDraw.GetHistogram().GetMaximum() * self.y_up_mult > maximum:
-                maximum = plot.thingToDraw.GetHistogram().GetMaximum() * self.y_up_mult
-            if plot.thingToDraw.GetHistogram().GetMinimum() * self.y_down_mult < minimum:
-                minimum = plot.thingToDraw.GetHistogram().GetMinimum() * self.y_down_mult
-                
+
+            curr_maximum = 0
+            curr_minimum = 0
+            """
+            The absolute values are needed in case that the max/min values are smaller than 0
+            By doing it this way we can control the direction of the 'multiplication'
+            """
+            if type(plot.thingToDraw) == type(TGraph()) or type(plot.thingToDraw) == type(TGraphErrors()):
+                curr_maximum = plot.thingToDraw.GetHistogram().GetMaximum() 
+                curr_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
+                curr_minimum = plot.thingToDraw.GetHistogram().GetMinimum() 
+                curr_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
+            else:
+                curr_maximum = plot.thingToDraw.GetMaximum() 
+                curr_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
+                curr_minimum = plot.thingToDraw.GetMinimum() 
+                curr_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
+
+
+            if curr_maximum > maximum:
+                maximum = curr_maximum
+            if curr_minimum < minimum:
+                minimum = curr_minimum  
+                              
         same = ""
         
         

@@ -147,29 +147,24 @@ class twoAxisPlotHolder(plotBase):
         self.pad1.cd()
 
 
-        maximum = -999999999999999.
-        minimum = 99999999999999.
+        maximum = -9999999999.
+        minimum = 9999999999.
 
-        maximum_right = -999999999999999.
-        minimum_right = 99999999999999.
+        maximum_right = -9999999999.
+        minimum_right = 9999999999.
 
 
         n_plots_left = 0
         n_plots_right = 0 # these two are needed for checking if each side gets at least one plot
         for plot in self.stuffToDraw:
 
-            """FIXME: Add Andreas Tgraph min/max calculation"""
             if type(plot.thingToDraw) == type(TF1()):
                 continue
             if type(plot.thingToDraw) == type(errorBarHist()):
                 continue
-            #print(maximum)
 
 
-
-            compare_maximum = 0
             curr_maximum = 0
-            compare_minimum = 0
             curr_minimum = 0
 
             """
@@ -178,29 +173,29 @@ class twoAxisPlotHolder(plotBase):
             """
             if type(plot.thingToDraw) == type(TGraph()) or type(plot.thingToDraw) == type(TGraphErrors()):
                 curr_maximum = plot.thingToDraw.GetHistogram().GetMaximum() 
-                compare_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
+                curr_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
                 curr_minimum = plot.thingToDraw.GetHistogram().GetMinimum() 
-                compare_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
+                curr_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
             else:
                 curr_maximum = plot.thingToDraw.GetMaximum() 
-                compare_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
+                curr_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
                 curr_minimum = plot.thingToDraw.GetMinimum() 
-                compare_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
+                curr_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
 
 
 
             if plot.leftAxis==False:
                 n_plots_right+=1
-                if compare_maximum > maximum_right:
-                    maximum_right = compare_maximum
-                if compare_minimum < minimum_right:
-                    minimum_right = compare_minimum
+                if curr_maximum > maximum_right:
+                    maximum_right = curr_maximum
+                if curr_minimum < minimum_right:
+                    minimum_right = curr_minimum
             else:
                 n_plots_left+=1
-                if compare_maximum > maximum:
-                    maximum = compare_maximum
-                if compare_minimum < minimum:
-                    minimum = compare_minimum
+                if curr_maximum > maximum:
+                    maximum = curr_maximum
+                if curr_minimum < minimum:
+                    minimum = curr_minimum
 
         if n_plots_left == 0:
             raise(IndexError("No plot for the left Y axis."))
