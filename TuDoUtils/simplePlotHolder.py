@@ -61,7 +61,7 @@ class simplePlotHolder(plotBase):
         @returns: list with chi2 residuals in 1D case. Otherwise None
         '''
         if len(self.stuffToDraw) == 0:
-            riase(IndexError("Nothing to draw!"))
+            raise(IndexError("Nothing to draw!"))
         if self.canvas is None:
             print("You did not book a canvas. I will do that for you")
             self.bookCanvas()
