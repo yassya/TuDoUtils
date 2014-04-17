@@ -286,7 +286,7 @@ class twoAxisPlotHolder(plotBase):
             same = "SAME"       
 
          
-        print(same)
+        
         #self.stuffToDraw[firstIndex].drawPlot(same)        
         if firstIndex==-1 and type(self.stuffToDraw[0].thingToDraw) is not type(TGraphErrors()) and  type(self.stuffToDraw[0].thingToDraw) is not type(TGraph()):
             self.stuffToDraw[0].drawPlot(same)
@@ -350,7 +350,9 @@ class twoAxisPlotHolder(plotBase):
 
         self.pad1.cd()
         return None
-        
+    def __del__(self):
+        del(self.pad1)
+        del(self.pad2)
 
 class twoAxesToDraw(toDraw): #if it quacks like a duck...
     """

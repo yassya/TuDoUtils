@@ -260,7 +260,9 @@ class plotBase(object):
         raise(NotImplementedError("This class is kind of abstract (the python way). To draw plots use a class which inherits from this one"))    
 
     
-        
+    def __del__(self):
+        for stuff in self.stuffToKeep:
+            del(stuff)
 class toDraw(object):
     '''
         @brief This is a handle for a thing to draw.. 

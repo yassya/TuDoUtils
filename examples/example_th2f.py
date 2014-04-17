@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 '''
 This is an example for the usage of the TuDoUtils class
 Author: Christian Jung <christian.jung@udo.edu>

@@ -510,6 +510,8 @@ class ratioPlotHolder(plotBase):
             return None
         
         
-        
+    def __del__(self):
+        del(self.pad1)
+        del(self.pad2)
 
     

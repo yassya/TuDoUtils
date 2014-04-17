@@ -266,3 +266,9 @@ class simplePlotHolder(plotBase):
         self.canvas.RedrawAxis()
         
         return None
+
+
+    def __del__(self):
+        
+        del(self.pad1)
+        plotBase.__del__(self)
