@@ -188,7 +188,7 @@ class ratioPlotHolder(plotBase):
                     #plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
                     if maximum <= 0:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.2)
-                    elif log(maximum,10) > 4 or log(maximum,10) < 4:
+                    elif log(maximum,10) > 4 or log(maximum,10) < -4:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.8)
                     else:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.6)
@@ -196,7 +196,7 @@ class ratioPlotHolder(plotBase):
                     #plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
                     if maximum <= 0:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    elif log(maximum,10) > 4 or log(maximum,10) < 4:
+                    elif log(maximum,10) > 4 or log(maximum,10) < -4:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.6)
                     else:
                         plot.thingToDraw.GetYaxis().SetTitleOffset(1.4)
