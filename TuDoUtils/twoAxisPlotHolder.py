@@ -288,9 +288,7 @@ class twoAxisPlotHolder(plotBase):
          
         
         #self.stuffToDraw[firstIndex].drawPlot(same)        
-        if firstIndex==-1 and type(self.stuffToDraw[0].thingToDraw) is not type(TGraphErrors()) and  type(self.stuffToDraw[0].thingToDraw) is not type(TGraph()):
-            self.stuffToDraw[0].drawPlot(same)
-        elif firstIndex != -1:
+        if type(self.stuffToDraw[firstIndex].thingToDraw) is not type(TGraphErrors()) and  type(self.stuffToDraw[firstIndex].thingToDraw) is not type(TGraph()):
             self.stuffToDraw[firstIndex].drawPlot(same)
 
         firstIndex = -1
@@ -305,10 +303,8 @@ class twoAxisPlotHolder(plotBase):
                 firstIndex=self.stuffToDraw.index(plot)
             plot.drawPlot(same)     
             same = "SAME"      
-        if firstIndex==-1 and type(self.stuffToDraw[0].thingToDraw) is not type(TGraphErrors()) and  type(self.stuffToDraw[0].thingToDraw) is not type(TGraph()):
+        if type(self.stuffToDraw[firstIndex].thingToDraw) is not type(TGraphErrors()) and  type(self.stuffToDraw[firstIndex].thingToDraw) is not type(TGraph()):
             self.stuffToDraw[0].drawPlot(same)
-        elif firstIndex != -1:
-            self.stuffToDraw[firstIndex].drawPlot(same)
 
 
         # self.stuffToDraw[firstIndex].drawPlot(same)        
