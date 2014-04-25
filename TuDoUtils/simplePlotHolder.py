@@ -37,7 +37,7 @@ class simplePlotHolder(plotBase):
         '''
         Constructor
         Default values which should give decent results out of the box
-        Make sure to change the values of xTitle and yTitle
+        This is the only present class which can handle 2D histograms which is why the values for that are setup here
         '''
         self.yRange = (0, 0) #only used for 2D histograms
         self.is2D=-1 # -1 means unspecified
@@ -45,20 +45,16 @@ class simplePlotHolder(plotBase):
 
       
 
-    def drawPlots(self, xPos=0.725, yPos=0.80, index=1):
+    def drawPlots(self, xPos=0.725, yPos=0.80):
         '''
         @brief: This draws all the objects which where added with addPlot and builds a legend.
         @param xPos: Fractional horziontal Position of the legend
         @param yPos: Fractional vertical Position of the legend
-        @param index: Index of the object for the ratio. See below for details  
+
         
-        if self.doRatio is True it will also draw the ratio of the things, w.r.t
-        to the (index-1)'th element in the list it got to draw,
-        which is the index'th elemtent which was added
-        
+
         xPos and yPos are the position of the legend  
         
-        @returns: list with chi2 residuals in 1D case. Otherwise None
         '''
         if len(self.stuffToDraw) == 0:
             raise(IndexError("Nothing to draw!"))
@@ -67,26 +63,21 @@ class simplePlotHolder(plotBase):
             self.bookCanvas()
             
         if self.is2D==0:
-            return(self.drawPlots1D(xPos, yPos, index))
+            return(self.drawPlots1D(xPos, yPos))
         elif self.is2D==1:
-            return(self.drawPlots2D(xPos, yPos, index))
+            return(self.drawPlots2D(xPos, yPos))
         else:
             print("Cannot decicde if 2D or 1D. Probably this means that you did not add anything too draw yet..")
             return None
-    def drawPlots1D(self, xPos=0.725, yPos=0.80, index=1):
+    def drawPlots1D(self, xPos=0.725, yPos=0.80):
         '''
         @brief: This draws all the objects which where added with addPlot and builds a legend.
         @param xPos: Fractional horziontal Position of the legend
-        @param yPos: Fractional vertical Position of the legend
-        @param index: Index of the object for the ratio. See below for details  
-        
-        if self.doRatio is True it will also draw the ratio of the things, w.r.t
-        to the (index-1)'th element in the list it got to draw,
+        @param yPos: Fractional vertical Position of the legendraw,
         which is the index'th elemtent which was added
         
         xPos and yPos are the position of the legend  
         
-        @returns: list with chi2 residuals 
         '''
         
         if self.is2D!=0:
@@ -219,7 +210,16 @@ class simplePlotHolder(plotBase):
         
 
 
-    def drawPlots2D(self, xPos=0.725, yPos=0.80, index=1):
+    def drawPlots2D(self, xPos=0.725, yPos=0.80):
+        '''
+        @brief: This draws all the objects which where added with addPlot and builds a legend.
+        @param xPos: Fractional horziontal Position of the legend
+        @param yPos: Fractional vertical Position of the legend
+        
+        
+        xPos and yPos are the position of the legend  
+        
+        '''
         if self.is2D!=1:
             raise(TypeError("This instance does not have any 2D histograms, aborting"))
             return None

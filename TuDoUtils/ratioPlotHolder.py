@@ -29,8 +29,7 @@ from TuDoUtils.errorBars import *
 class ratioPlotHolder(plotBase):
 
     '''
-    @brief A class for holding objects to be drawn and to draw them 
-    Handle for all the functions, can hold plots and stuff
+    @brief Plot stuff with an additional ratio on the bottom
     '''
 
 
@@ -38,7 +37,9 @@ class ratioPlotHolder(plotBase):
         '''
         Constructor
         Default values which should give decent results out of the box
-        Make sure to change the values of xTitle and yTitle
+        Interesting parameters are 
+            doMCoverData : flips the ratio if wanted
+            centerUncertAtZero : centers systematic uncertainites (if present, see errorBars) at zero instead at the ratiopoints
         '''
         
         
@@ -115,7 +116,7 @@ class ratioPlotHolder(plotBase):
         
         xPos and yPos are the position of the legend  
         
-        @returns: list with chi2 residuals in 1D case. Otherwise None
+        @returns: list with chi2 residuals 
         '''
         return(self.drawPlots1D(xPos, yPos, index))
     def drawPlots1D(self, xPos=0.725, yPos=0.80, index=1):

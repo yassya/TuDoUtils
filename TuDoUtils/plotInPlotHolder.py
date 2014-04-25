@@ -29,8 +29,9 @@ from TuDoUtils.errorBars import *
 class plotInPlotHolder(plotBase):
 
     '''
-    @brief A class for holding objects to be drawn and to draw them 
-    Handle for all the functions, can hold plots and stuff
+    @brief A class for plotting a plot within another one
+
+    an example for this can be found in examples/example_plotInPlot.py
     '''
 
 
@@ -38,7 +39,7 @@ class plotInPlotHolder(plotBase):
         '''
         Constructor
         Default values which should give decent results out of the box
-        Make sure to change the values of xTitle and yTitle
+        Make sure to change the values of xTitleMiddle and yTitleMiddle
         '''
         
         
@@ -64,6 +65,9 @@ class plotInPlotHolder(plotBase):
         @brief book a ROOT TCanvas
         @param xSize: size (in pixels) in the horizontal direction 
         @param ySize: size (in pixels) in the vertical direction
+
+        It is necessary to set self.middlePositions and self.middleSize to 
+        the desired values before calling this as it sets up the middle pad
         '''
 
         if self.middlePositions[0]+self.middleSize[0] > 1:
@@ -123,15 +127,8 @@ class plotInPlotHolder(plotBase):
         @brief: This draws all the objects which where added with addPlot and builds a legend.
         @param xPos: Fractional horziontal Position of the legend
         @param yPos: Fractional vertical Position of the legend
-        @param index: Index of the object for the ratio. See below for details  
-        
-        if self.doRatio is True it will also draw the ratio of the things, w.r.t
-        to the (index-1)'th element in the list it got to draw,
-        which is the index'th elemtent which was added
-        
-        xPos and yPos are the position of the legend  
-        
-        @returns: list with chi2 residuals 
+        @param xPosMiddle: Fractional horziontal Position of the legend for the smaller plot in the middle
+        @param xPosMiddle: Fractional vertical Position of the legend for the smaller plot in the middle
         '''
         
         if len(self.stuffToDraw) < 2:

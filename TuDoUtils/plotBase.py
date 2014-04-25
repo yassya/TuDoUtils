@@ -34,6 +34,8 @@ class plotBase(object):
     '''
     @brief A class for holding objects to be drawn and to draw them 
     Handle for all the functions, can hold plots and stuff
+
+    This class is kind of abstract. To do actual plotting look at the classes which actually inherit from this one like simplePlotHolder
     '''
 
 
