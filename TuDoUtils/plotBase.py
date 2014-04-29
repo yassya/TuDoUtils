@@ -200,8 +200,8 @@ class plotBase(object):
         '''  
         add = 0.8/100./size
         
-        if self.doRatio:
-            add /= 1.35
+        # if self.doRatio:
+        #     add /= 1.35
 
         if self.addText(str(addText), xPos + add, yPos, ROOT.kBlack,size) is None:
             print("Failed to print ATLAS extra text")

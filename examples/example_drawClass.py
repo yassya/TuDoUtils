@@ -62,6 +62,7 @@ def example():
     #it will only work properly after drawPlots ..
     myUtils.addText("You can write stuff", 0.2,0.5, ROOT.kBlue)
     
+    myUtils.addATLASLabel(0.2,0.8,"Internal")
     
     myUtils.saveCanvas("example.pdf")
     
