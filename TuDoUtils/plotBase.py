@@ -65,6 +65,8 @@ class plotBase(object):
         
         self.xTitle = "Every time you forget the title, god kills a Phd student"
         self.yTitle = "I am a lazy student"
+
+        self.area_first_pad_corr = 1 #this is to make the stuff on smaller pads appear the same size due to root nastyness FIXME: find a better explanation
         
                 
         gc.disable() # this will make the python garbage collection stop trying to clean up root objects
@@ -99,7 +101,8 @@ class plotBase(object):
         @param color: Color of the text. Default is black
         @param textsize: Size of the text
         @param angle: Angle of the text. The default, 0, is horizontal  
-        '''
+        # '''
+        textsize*=self.area_first_pad_corr
         if self.canvas is None:
             raise(AttributeError("No canvas to paint on!"))
         l = TLatex()
@@ -107,6 +110,7 @@ class plotBase(object):
         l.SetNDC()
         l.SetTextColor(color)
         l.SetTextSize(textsize)
+        
         l.SetTextAngle(angle)
         l.DrawLatex(xPos, yPos, text)
         return 0
@@ -198,10 +202,8 @@ class plotBase(object):
         @param size: Size of the text
 
         '''  
-        add = 0.8/100./size
-        
-        # if self.doRatio:
-        #     add /= 1.35
+        add = 1.5*size + 0.015
+
 
         if self.addText(str(addText), xPos + add, yPos, ROOT.kBlack,size) is None:
             print("Failed to print ATLAS extra text")
@@ -211,7 +213,7 @@ class plotBase(object):
         l.SetNDC()
         l.SetTextAlign(12)
         l.SetTextFont(72)
-        l.SetTextSize(size)
+        l.SetTextSize(size*self.area_first_pad_corr)
         l.SetTextColor(1)
         text = "ATLAS"
         l.DrawLatex(xPos, yPos, text)

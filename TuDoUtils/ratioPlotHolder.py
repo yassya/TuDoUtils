@@ -44,7 +44,7 @@ class ratioPlotHolder(plotBase):
         
         
         self.ratioRange = 0.25
-        self.size=0.04
+        self.size=0.1
         self.ratioType = "EY"        
         self.doMCoverData=False
         self.centerUncertAtZero=True
@@ -52,6 +52,8 @@ class ratioPlotHolder(plotBase):
         self.ratioType = "EY"
         self.ratioTitle="rel. difference"
         plotBase.__init__(self)
+
+        self.area_first_pad_corr = 1. / 0.75
                 
 
     def addPlot1D(self, thing, label, style):
@@ -258,12 +260,12 @@ class ratioPlotHolder(plotBase):
                 
                 thePlot.GetYaxis().SetRangeUser(-self.ratioRange, self.ratioRange)
                 thePlot.GetXaxis().SetTitle(self.xTitle)
+                thePlot.GetXaxis().SetTitle(self.xTitle)
                 thePlot.GetXaxis().SetLabelFont(43)
-                thePlot.GetXaxis().SetLabelSize(50)
-                thePlot.GetXaxis().SetTitleFont(43)
                 thePlot.GetXaxis().SetLabelSize(self.size*1000)
-                thePlot.GetXaxis().SetTitleSize(self.size*1600)
-                thePlot.GetXaxis().SetLabelOffset(0.01)
+                thePlot.GetXaxis().SetTitleFont(43)
+                thePlot.GetXaxis().SetTitleSize(self.size*1200)
+                thePlot.GetXaxis().SetTitleOffset(1.1)
                 if self.canvas.GetAspectRatio() > 1:
                     thePlot.GetYaxis().SetTitleOffset(2.5)
                     thePlot.GetXaxis().SetTitleOffset(2.5)
