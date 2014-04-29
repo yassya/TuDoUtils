@@ -202,7 +202,39 @@ class plotBase(object):
         @param size: Size of the text
 
         '''  
-        add = 1.5*size + 0.015
+        
+        
+        
+        '''
+        the calculation of these numbers is real science
+        they are needed because roots oppinion of size is weird
+
+        first, wen need to figure out the aspect ration of our canvas
+        '''
+        aspect=self.canvas.GetXsizeReal()/self.canvas.GetYsizeReal()
+
+        '''
+        then, as the position of stuff depends on the aspect ratio,
+        I did some by-hand collection of 'data' of having a nice-looking offset
+        these can be fit by the following two formulas
+        '''
+        aspect_corr = 1.5*aspect*aspect - 6*aspect +7.5
+        offset = 0.005*(aspect - 1) + 0.01
+        
+        '''
+        and of course, if we want the text to be bigger, 
+        we need to take that into account
+        '''
+        add = aspect_corr*size + offset
+        
+
+        '''
+        the numbers have been tested for aspect rations between 1:1.4 and 1.4:1
+        and text sizes between 0.03 and 0.06. As the numbers are approximate,
+        the offset will not always be exactly the same, but the difference
+        should not be too large. enjoy
+        '''
+        # add = 0.10
 
 
         if self.addText(str(addText), xPos + add, yPos, ROOT.kBlack,size) is None:
