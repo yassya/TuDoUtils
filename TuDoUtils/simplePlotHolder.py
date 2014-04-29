@@ -198,6 +198,7 @@ class simplePlotHolder(plotBase):
             self.canvas.SetLogy()
             
             self.pad1.SetLogy()
+        
         for plot in self.stuffToDraw:
             yPos = plot.drawLabel(self, xPos, yPos) # return value will be next free y value
         self.pad1.RedrawAxis()

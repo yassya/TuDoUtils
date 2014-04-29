@@ -183,13 +183,17 @@ class plotBase(object):
         if self.addText(text, xPos, yPos, ROOT.kBlack, size * 0.9) is None:
             print("Failed to add text for Marker")
             return None
-        
-        line = TLine(xPos - (0.055), yPos,xPos - (0.015),yPos)
+        print(xPos,yPos)
+        line = TLine(xPos - (0.055), yPos ,xPos - (0.015),yPos)
+
+        line.SetNDC()
+        # line = TLine(xPos, yPos,xPos,yPos)
         #print(color)
         line.SetLineColor(color)
         
         line.SetLineStyle(style)
         line.SetLineWidth(2)
+        
         self.stuffToKeep.Add(line)
         line.Draw()
         
@@ -221,10 +225,13 @@ class plotBase(object):
         aspect_corr = 1.5*aspect*aspect - 6*aspect +7.5
         offset = 0.005*(aspect - 1) + 0.01
         
+        # off
         '''
         and of course, if we want the text to be bigger, 
         we need to take that into account
         '''
+
+        offset = 0.015
         add = aspect_corr*size + offset
         
 
