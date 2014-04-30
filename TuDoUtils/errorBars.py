@@ -26,14 +26,27 @@ import gc
 
 
 class errorBarHist(object):
+    '''
+    This class is for storing systematic errors associated with a histogram
+    This allows it to draw the statistical and systematic errors separately in the same figure
+
+    It works by first creating an instance with the histogram. Afterwards one can add 
+    systematic variations with the two functions addUncertSingle and addUncertUpDown
+
+    The class propagates all calls to ROOT functions used by other TuDoUtils packages
+    to the nominal histogram
+    '''
     def __init__(self, theHist=None):
         import gc
         gc.disable
         self.keepList = TList()
-        if theHist is None:
-            
-            self.histo = None
-            self.errorHist = None
+
+        if theHist == None:
+            self.histo=None
+            self.errorHist=None
+        elif type(theHist)!=type(TH1F()) and type(theHist)!=type(TH1D()):
+            raise(TypeError("errorBarHist needs to be initalized with a TH1X. Maybe you want errorBarStack instead?"))        
+
         else:
             self.histo = theHist
             self.errorHist = theHist.Clone(theHist.GetName() + "errors")
@@ -49,8 +62,17 @@ class errorBarHist(object):
                 self.errorHist.SetFillStyle(3145 + ((self.errorHist.GetFillColor() + 1) % 2) * 100);
 
     def addUncertUpDown(self, upHist, downHist):
+        '''
+        Add a systematic variation with a upwards and a downwards shift
+        The uncertainty is half the difference between the two provided histograms
+        '''
         if self.errorHist is None:
             raise(AttributeError("Got no histogram. Please be careful"))
+        if type(upHist) != type(TH1F()) and type(upHist) != type(TH1D()):
+            raise(TypeError("The upwards variation is not a histogram!"))
+        if type(downHist) != type(TH1F()) and type(downHist) != type(TH1D()):
+            raise(TypeError("The downwards variation is not a histogram!"))
+
         upHist.Add(downHist, -1)
         for x in range(self.errorHist.GetNbinsX()):
             oldError = self.errorHist.GetBinError(x)
@@ -60,8 +82,15 @@ class errorBarHist(object):
             self.errorHist.SetBinError(x, newError)
     
     def addUncertSingle(self, theHist):
+        '''
+        Add a systematic variation with a single shift
+        The uncertainty is the *full* difference between the provided histogram
+        and the nominal histogram
+        '''
         if self.errorHist is None:
             raise(AttributeError("Got no histogram. Please be careful"))
+        if type(theHist) != type(TH1F()) and type(theHist) != type(TH1D()):
+            raise(TypeError("The downwards variation is not a histogram!"))
         theHist.Add(self.histo, -1)
         for x in range(self.errorHist.GetNbinsX()):
             oldError = self.errorHist.GetBinError(x)
@@ -118,13 +147,30 @@ class errorBarHist(object):
         
 class errorBarStack(object):
     def __init__(self, theHist=None):
+        '''
+        This class is for storing systematic errors associated with a histogram *stack*
+        This allows it to draw the statistical and systematic errors separately in the same figure
+
+        It works by first creating an instance with the stack. Afterwards one can add 
+        systematic variations with the two functions addUncertSingle and addUncertUpDown
+
+        ******************************************************************************************
+        IMPORTANT: even though the constructor must be called with a THStack, the variations
+        still must be TH1* objects!!!
+        ******************************************************************************************
+        
+        The class propagates all calls to ROOT functions used by other TuDoUtils packages
+        to the nominal histogram
+        '''
+
+
         import gc
         gc.disable
-        if theHist is None:
-            
-            self.histo = None
-            self.errorHist = None
-        
+        if theHist == None:
+            self.histo=None
+            self.errorHist=None
+        elif type(theHist)!=type(THStack()):
+            raise(TypeError("errorBarStack needs to be initalized with a THStack. Maybe you want errorBarHist instead?"))        
         else:
             self.histo = theHist
             self.errorHist = None
@@ -142,8 +188,16 @@ class errorBarStack(object):
                 self.errorHist.SetFillStyle(3145 + ((self.errorHist.GetFillColor() + 1) % 2) * 100);
 
     def addUncertUpDown(self, upHist, downHist):
+        '''
+        Add a systematic variation with a upwards and a downwards shift
+        The uncertainty is half the difference between the two provided histograms
+        '''
         if self.errorHist is None:
             raise(AttributeError("Got no histogram. Please be careful"))
+        if type(upHist) != type(TH1F()) and type(upHist) != type(TH1D()):
+            raise(TypeError("The upwards variation is not a histogram!"))
+        if type(downHist) != type(TH1F()) and type(downHist) != type(TH1D()):
+            raise(TypeError("The downwards variation is not a histogram!"))
         upHist.Add(downHist, -1)
         for x in range(self.errorHist.GetNbinsX()):
             oldError = self.errorHist.GetBinError(x)
@@ -154,8 +208,15 @@ class errorBarStack(object):
             self.errorHist.SetBinError(x, newError)
     
     def addUncertSingle(self, theHist):
+        '''
+        Add a systematic variation with a single shift
+        The uncertainty is the *full* difference between the provided histogram
+        and the nominal histogram
+        '''
         if self.errorHist is None:
             raise(AttributeError("Got no histogram. Please be careful"))
+        if type(theHist) != type(TH1F()) and type(theHist) != type(TH1D()):
+            raise(TypeError("The downwards variation is not a histogram!"))
         theHist.Add(self.errorHist, -1)
         for x in range(self.errorHist.GetNbinsX()):
             oldError = self.errorHist.GetBinError(x)
