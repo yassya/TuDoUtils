@@ -14,7 +14,8 @@
 #python stuff
 __pycache__
 *.pyc
-
+.project
+.pydevproject
 # root stuff
 ####################
 AutoDict*
