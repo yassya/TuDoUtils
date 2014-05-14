@@ -1,5 +1,5 @@
 '''
-This is an example for the usage of the TuDoUtils class
+This is an example for the usage of the ratioPlotHolder class.
 Author: Christian Jung <christian.jung@udo.edu>
 '''
 from TuDoUtils.simplePlotHolder import simplePlotHolder
