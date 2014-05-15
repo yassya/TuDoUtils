@@ -1,3 +1,159 @@
+commit 3fc97fc9363e4b5fbf6a88cfcf501d1d98f58440
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Thu May 15 09:06:36 2014 +0200
+
+    A little bit more protection
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 2bdbb7e3efe5cfb274cec6580805f634bb7e2aec
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Wed May 14 15:53:03 2014 +0200
+
+    fixed setup.sh to work in different bash versions
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit bf8ac528199e2b2cd85b1b7044bf53bc41966c21
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Wed May 14 11:44:31 2014 +0200
+
+    Some small changes to the documentation
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 9c18e80f73cc17a6d2ebdc44b097b91dfad4b4f7
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Mon May 5 11:16:26 2014 +0200
+
+    Added eclipse project files to gitignore
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit d4dc63b9545f3eee4647edc24ca28fc89c861c25
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Mon May 5 11:15:21 2014 +0200
+
+    Removed unnecessary file
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit f6e1dd4a4f1e27c991b1b8d6a43b02ea628bb80d
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Mon May 5 11:13:07 2014 +0200
+
+    Updated README to reflect new class structure
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit d48abf055fafd0ac51759931f9345c258f394708
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Wed Apr 30 10:56:41 2014 +0200
+
+    Documented the errorbars classes
+    
+    added some failsafes to them as well
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 9c4a34bf02840a30635d49116d45651f33cc9627
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Tue Apr 29 16:02:43 2014 +0200
+
+    Fixed a bug in addLineText
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit e2245d52dccede52b48c323f149d4ef4aa1e1d76
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Tue Apr 29 11:34:38 2014 +0200
+
+    The canvas aspect ratio now is taken into account when calculating
+    the size of the ATLAS label...
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 8525b752e7f16a43bee84ada3c40bfb376afecc7
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Tue Apr 29 10:40:33 2014 +0200
+
+    Made sizes in simplePlotHolder and ratioPlotHolder more similar
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit a75f01c084e149c2ce6eccaaa2a2b38ba4d33382
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Tue Apr 29 09:32:30 2014 +0200
+
+    Added a very simple setup script
+    
+    removed doRatio in addATLASLabel
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit b3adc024b1b9a90de6211c7b29cdd092bc6b330d
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Fri Apr 25 09:56:10 2014 +0200
+
+    Updated documentation in the .py files to reflect the new amount of classes
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit dd75c8a86ef978896d3f3e50e9d0c6be31bfc84b
+Author: Andreas Gisen <andreas.gisen@tu-dortmund.de>
+Date:   Wed Apr 23 15:08:02 2014 +0200
+
+    Fixed redrawing of the first plot if the first plot is no TGraph or TGraphErrors.
+
+commit 548fda8567aa5346bbc5b0d1d9ea0ee2835f3813
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Tue Apr 22 13:15:14 2014 +0200
+
+    Added support for plot in plots
+    
+    Bugfix in y-label offset calculation
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 1e81d5617a1d3168ac908d61ba606097d7af5966
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Thu Apr 17 14:40:13 2014 +0200
+
+    Fixed the weird thing with random segmentation violations at the end of the script
+    Seems like deleting all pads from hand fixes the issue
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 7a5f4f7f0ee55398c7c1c5e10379b72227bde9f7
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Thu Apr 17 13:46:05 2014 +0200
+
+    Fixed typo because andreas was too lazy ;-)
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit 1d8f80b25421b598dad03546e1738d607f29133b
+Author: Andreas Gisen <andreas.gisen@tu-dortmund.de>
+Date:   Wed Apr 16 14:43:22 2014 +0200
+
+    Added TGraph/TGraphErrors min/max calculation.
+
+commit eb843f87ece40c27a41912f222ac3663eb313cb3
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Mon Apr 14 15:59:46 2014 +0200
+
+    Missed one exception, it is added now
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit a360380f5e90594a65d097fec690762afa1d6ab5
+Author: Christian Jung <christian.jung@udo.edu>
+Date:   Mon Apr 14 15:33:19 2014 +0200
+
+    Added exception handling to all classes
+    
+    Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
 commit 5da1ac349fe8fd446cfe8d5be0c250bf8c75aecf
 Author: Andreas Gisen <andreas.gisen@tu-dortmund.de>
 Date:   Fri Apr 11 16:37:48 2014 +0200
@@ -74,6 +230,26 @@ Date:   Thu Mar 27 16:15:03 2014 +0100
     Added a lot of Improvements by Hendrik and Me to the classes
     
     Signed-off-by: Christian Jung <christian.jung@udo.edu>
+
+commit dc77d3670364fbcbc7d02592161ade40eccba1f2
+Author: Christian Jung <cjung@diphda.(none)>
+Date:   Thu Jun 6 11:55:26 2013 +0200
+
+    Added color Holder
+    
+    Signed-off-by: Christian Jung <cjung@diphda.(none)>
+
+commit f36493dff5e7ab6dda30ccef70db08457dfc805f
+Author: yassya <yassya@lotgd.de>
+Date:   Tue Jan 22 11:42:39 2013 +0100
+
+    Update ChangeLog
+
+commit d075dace9a0c4530e64293882be5b6b39ba61c16
+Author: yassya <yassya@lotgd.de>
+Date:   Tue Jan 22 11:41:39 2013 +0100
+
+    Update README.md
 
 commit b817b5e414f491a3c0f669dc916e6635f9d88369
 Author: Christian Jung <christian.jung@udo.edu>
