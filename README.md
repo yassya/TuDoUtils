@@ -22,6 +22,7 @@ There are additional examples for all these classes.
 
 
 
+
 printAsLatexTable converts a python list to the body of a latex tabular.
 Caution: printAsLatexTable does not work with python2, due to some magic with the print()-Function
 
