@@ -110,21 +110,22 @@ class simplePlotHolder(plotBase):
             """
             if type(plot.thingToDraw) == type(TGraph()) or type(plot.thingToDraw) == type(TGraphErrors()):
                 curr_maximum = plot.thingToDraw.GetHistogram().GetMaximum() 
-                curr_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
                 curr_minimum = plot.thingToDraw.GetHistogram().GetMinimum() 
-                curr_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
             else:
                 curr_maximum = plot.thingToDraw.GetMaximum() 
-                curr_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
                 curr_minimum = plot.thingToDraw.GetMinimum() 
-                curr_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
-
 
             if curr_maximum > maximum:
                 maximum = curr_maximum
             if curr_minimum < minimum:
-                minimum = curr_minimum  
-                              
+                minimum = curr_minimum
+                
+
+        maximum = maximum + (self.y_up_mult - 1) * abs(maximum)
+        minimum = minimum - (self.y_down_mult - 1) * abs(minimum)
+                        
+
+             
         same = ""
         
         

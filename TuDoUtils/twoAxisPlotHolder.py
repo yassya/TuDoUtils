@@ -29,7 +29,8 @@ from TuDoUtils.errorBars import *
 class twoAxisPlotHolder(plotBase):
 
     '''
-    @brief Draw histograms with different y axes (but same x axes!) in the same plot
+    @brief A class for holding objects to be drawn and to draw them 
+    Handle for all the functions, can hold plots and stuff
     '''
 
 
@@ -37,7 +38,7 @@ class twoAxisPlotHolder(plotBase):
         '''
         Constructor
         Default values which should give decent results out of the box
-        Make sure to change the yTitle for the right y axis ;)
+        Make sure to change the values of xTitle and yTitle
         '''
         
         
@@ -90,21 +91,36 @@ class twoAxisPlotHolder(plotBase):
         self.stuffToDraw.append(twoAxesToDraw(thing, label, style, leftAxis))
 
 
-    def drawPlots(self, xPos=0.725, yPos=0.80):
+    def drawPlots(self, xPos=0.725, yPos=0.80, index=1):
         '''
         @brief: This draws all the objects which where added with addPlot and builds a legend.
         @param xPos: Fractional horziontal Position of the legend
         @param yPos: Fractional vertical Position of the legend
-
+        @param index: Index of the object for the ratio. See below for details  
+        
+        if self.doRatio is True it will also draw the ratio of the things, w.r.t
+        to the (index-1)'th element in the list it got to draw,
+        which is the index'th elemtent which was added
+        
         xPos and yPos are the position of the legend  
         
+        @returns: list with chi2 residuals in 1D case. Otherwise None
         '''
-        return(self.drawPlots1D(xPos, yPos))
-    def drawPlots1D(self, xPos=0.725, yPos=0.80):
+        return(self.drawPlots1D(xPos, yPos, index))
+    def drawPlots1D(self, xPos=0.725, yPos=0.80, index=1):
         '''
         @brief: This draws all the objects which where added with addPlot and builds a legend.
         @param xPos: Fractional horziontal Position of the legend
         @param yPos: Fractional vertical Position of the legend
+        @param index: Index of the object for the ratio. See below for details  
+        
+        if self.doRatio is True it will also draw the ratio of the things, w.r.t
+        to the (index-1)'th element in the list it got to draw,
+        which is the index'th elemtent which was added
+        
+        xPos and yPos are the position of the legend  
+        
+        @returns: list with chi2 residuals 
         '''
         
         if len(self.stuffToDraw) < 2:
@@ -157,15 +173,10 @@ class twoAxisPlotHolder(plotBase):
             """
             if type(plot.thingToDraw) == type(TGraph()) or type(plot.thingToDraw) == type(TGraphErrors()):
                 curr_maximum = plot.thingToDraw.GetHistogram().GetMaximum() 
-                curr_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
                 curr_minimum = plot.thingToDraw.GetHistogram().GetMinimum() 
-                curr_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
             else:
                 curr_maximum = plot.thingToDraw.GetMaximum() 
-                curr_maximum = curr_maximum + (self.y_up_mult - 1) * abs(curr_maximum)
                 curr_minimum = plot.thingToDraw.GetMinimum() 
-                curr_minimum = curr_minimum - (self.y_down_mult - 1) * abs(curr_minimum)
-
 
 
             if plot.leftAxis==False:
@@ -180,6 +191,14 @@ class twoAxisPlotHolder(plotBase):
                     maximum = curr_maximum
                 if curr_minimum < minimum:
                     minimum = curr_minimum
+                    
+
+        maximum = maximum + (self.y_up_mult - 1) * abs(maximum)
+        minimum = minimum - (self.y_down_mult - 1) * abs(minimum)
+
+        maximum_right = maximum_right + (self.y_up_mult - 1) * abs(maximum_right)
+        minimum_right = minimum_right - (self.y_down_mult - 1) * abs(minimum_right)
+
 
         if n_plots_left == 0:
             raise(IndexError("No plot for the left Y axis."))
