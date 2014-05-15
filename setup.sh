@@ -1,5 +1,10 @@
 #!/bin/bash
 
-scriptdir=$(dirname $(readlink -f $BASH_SOURCE))
+if [[ ${BASH_SOURCE} = "" ]]; then
+	echo "Cannot determine location of package dir"
+	exit 1
+else
+	scriptdir=$(dirname $(readlink -f $BASH_SOURCE))
 
-export PYTHONPATH=$scriptdir:$PYTHONPATH
+	export PYTHONPATH=$scriptdir:$PYTHONPATH
+fi
