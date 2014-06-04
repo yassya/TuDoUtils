@@ -327,8 +327,11 @@ class twoAxisPlotHolder(plotBase):
         
         self.pad2.cd()
 
-
-        axis = TGaxis(self.xRange[1], minimum_right, self.xRange[1], maximum_right, minimum_right, maximum_right, 804,"+L")
+        if self.xRange[0] == self.xRange[1]:
+            xmax = self.stuffToDraw[0].thingToDraw.GetXaxis().GetXmax()
+            axis = TGaxis(xmax, minimum_right,xmax, maximum_right, minimum_right, maximum_right, 804,"+L")
+        else:
+            axis = TGaxis(self.xRange[1], minimum_right, self.xRange[1], maximum_right, minimum_right, maximum_right, 804,"+L")
         axis.SetLabelColor(ROOT.kRed)
         axis.SetTitleColor(ROOT.kRed)
 
