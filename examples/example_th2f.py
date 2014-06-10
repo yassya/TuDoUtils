@@ -95,12 +95,12 @@ def example():
 #        print(x,y)
         myThirdPlot.Fill(x,y)
     
-    myUtils.addPlot2D(myFirstPlot, "A nice 2D Gaussian", "BOX2")
-    myUtils.addPlot2D(mySndPlot, "Another nice 2D Gaussian", "BOX")
-    myUtils.addPlot2D(myThirdPlot, "Yet another 2D Gaussian", "BOX")
-#    myUtils.addPlot2D(myFirstPlot, "A nice 2D Gaussian", "COLZ")
-#    myUtils.addPlot2D(mySndPlot, "Another nice 2D Gaussian", "COL")
-#    myUtils.addPlot2D(myThirdPlot, "Yet another 2D Gaussian", "COL")
+    # myUtils.addPlot2D(myFirstPlot, "A nice 2D Gaussian", "BOX2")
+    # myUtils.addPlot2D(mySndPlot, "Another nice 2D Gaussian", "BOX")
+    # myUtils.addPlot2D(myThirdPlot, "Yet another 2D Gaussian", "BOX")
+    myUtils.addPlot2D(myFirstPlot, "A nice 2D Gaussian", "COLZ")
+    myUtils.addPlot2D(mySndPlot, "Another nice 2D Gaussian", "COL")
+    myUtils.addPlot2D(myThirdPlot, "Yet another 2D Gaussian", "COL")
     
     #and now lets draw that stuff
     #first and second argument are xpos and ypos of the legend

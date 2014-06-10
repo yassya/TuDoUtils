@@ -183,26 +183,9 @@ class ratioPlotHolder(plotBase):
                 plot.thingToDraw.GetYaxis().SetLabelSize(self.size*1000)
                 plot.thingToDraw.GetYaxis().SetTitleFont(43)
                 plot.thingToDraw.GetYaxis().SetTitleSize(self.size*1000)
-
-
-
-                
-                if self.canvas.GetAspectRatio() > 1: #hochformat
-                    #plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    if maximum <= 0:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.2)
-                    elif log(maximum,10) > 4 or log(maximum,10) < -4:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.8)
-                    else:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.6)
-                else:
-                    #plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    if maximum <= 0:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    elif log(maximum,10) > 4 or log(maximum,10) < -4:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.6)
-                    else:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.4)
+                plot.thingToDraw.GetXaxis().SetTitleOffset(self.calcBottomTitleOffset())
+                plot.thingToDraw.GetYaxis().SetTitleOffset(self.calcLeftTitleOffset())
+    
                 plot.thingToDraw.GetYaxis().SetLabelOffset(0.01)
                 if self.xRange[0] is not self.xRange[1]:
                     plot.thingToDraw.GetXaxis().SetRangeUser(self.xRange[0], self.xRange[1])
@@ -260,59 +243,25 @@ class ratioPlotHolder(plotBase):
                 
                 thePlot.GetYaxis().SetRangeUser(-self.ratioRange, self.ratioRange)
                 thePlot.GetXaxis().SetTitle(self.xTitle)
-                thePlot.GetXaxis().SetTitle(self.xTitle)
+                
                 thePlot.GetXaxis().SetLabelFont(43)
                 thePlot.GetXaxis().SetLabelSize(self.size*1000)
                 thePlot.GetXaxis().SetTitleFont(43)
                 thePlot.GetXaxis().SetTitleSize(self.size*1200)
-                thePlot.GetXaxis().SetTitleOffset(1.1)
-                if self.canvas.GetAspectRatio() > 1:
-                    thePlot.GetYaxis().SetTitleOffset(2.5)
-                    thePlot.GetXaxis().SetTitleOffset(2.5)
-                else:
-                    thePlot.GetYaxis().SetTitleOffset(1.8)
-                    thePlot.GetXaxis().SetTitleOffset(2.5)
-                
-#                    
-
-                thePlot.GetYaxis().SetTitleSize(self.size*1000)
-                if type(thePlot) is not type(errorBarStack()):
-                    thePlot.GetYaxis().SetLabelSize(self.size*800)
-                    if self.canvas.GetAspectRatio() > 1:
-                        thePlot.GetYaxis().SetTitleOffset(2)
-                    else:
-                        thePlot.GetYaxis().SetTitleOffset(1.5)
-
-#                        thePlot.GetYaxis().SetTitleOffset(2)     
-                else:
-                    thePlot.GetYaxis().SetLabelSize(self.size*2)
-                    
-                    thePlot.GetYaxis().SetLabelSize(self.size*3.0)
-                    thePlot.GetYaxis().SetTitleSize(self.size*3.0)     
-                    
-                    #thePlot.GetYaxis().SetTitleSize(labelsize)        
-                    thePlot.GetYaxis().SetTitle("rel. difference")
-                    if self.canvas.GetAspectRatio() > 1: #hochformat
-                        thePlot.GetYaxis().SetTitleOffset(1.0)
-                        #thePlot.GetYaxis().SetTitleOffset(0.75)
-                    else: #querformat
-                        #thePlot.GetYaxis().SetTitleOffset(0.8)
-                        thePlot.GetYaxis().SetTitleOffset(0.55)
-#thePlot.GetYaxis().SetTitleOffset(0.75)  
-                    
-                
-                
+                thePlot.GetXaxis().SetTitleOffset(self.calcBottomTitleOffset())
+                thePlot.GetYaxis().SetTitleOffset(self.calcLeftTitleOffset())
+            else:
+                thePlot.GetYaxis().SetLabelSize(self.size*2)
+                thePlot.GetYaxis().SetLabelSize(self.size*3.0)
+                thePlot.GetYaxis().SetTitleSize(self.size*3.0)     
+                thePlot.GetYaxis().SetTitle("rel. difference")
+                thePlot.GetYaxis().SetTitleOffset(self.calcLeftTitleOffset())
                 thePlot.GetYaxis().SetLabelOffset(0.025)  
                 thePlot.GetYaxis().SetNdivisions(206, True);
                 thePlot.SetMarkerSize(self.size * 50)
             if len(self.stuffToDraw) is 2:
-
                 thePlot.SetMarkerSize(self.size * 50)
 
-                
-                
-#                    thePlot.SetMarkerStyle(20)
-                
             thePlot.Draw(str(self.ratioType) + same)
             #print(str(self.ratioType) + same)
             #thePlot.Draw("EY" + same)
@@ -511,7 +460,35 @@ class ratioPlotHolder(plotBase):
         else:
             raise(TypeError("You passed me a ", type(denumerator), "which I can't handle :("))
             return None
+
+
+    def calcBottomTitleOffset(self):
+        '''
+        @brief calculates the label offset which depends on the margin size of the pad
+
+        function needs to be changed due to the 2nd pad changing things
+        '''
+        if self.pad1 == None:
+            raise(AttributeError("calcBottomTitleOffset: No pad exists (yet)"))
+
+        bottom_margin = self.pad1.GetBottomMargin()
+
+        '''
+        This has been calculated by trial and error. Will unlikely
+        give decent results if the margin size is less than 0.1 or more than 0.3
+        '''
+        target_offset = 2 + 4 * bottom_margin
         
+        aspect_ratio = self.canvas.GetXsizeReal()/self.canvas.GetYsizeReal()
+
+        aspect_corr = (2 - aspect_ratio) * 0.15
+
+
+        # print(aspect_ratio, aspect_corr)
+
+        target_offset += aspect_corr 
+        return(target_offset)
+
         
     def __del__(self):
         del(self.pad1)

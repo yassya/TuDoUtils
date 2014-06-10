@@ -10,20 +10,27 @@ from ROOT import TH1F
 def example():
 
 
+    ROOT.gROOT.ProcessLine(".x ../2DAnalysis/Helper/styles.cxx")
+    
+    ROOT.gROOT.SetStyle("ATLAS");
+    ROOT.gErrorIgnoreLevel = 1001
+    ROOT.gStyle.SetPalette(1)
+
     # first we need to generate the object we are going to use
     myUtils = ratioPlotHolder()
+    # myUtils = simplePlotHolder()
     
     #axis labels. I recommend setting them
-    # myUtils.xTitle = "some title for the x-axis"
-    # myUtils.yTitle = "something else for the y-axis"
+    myUtils.xTitle = "some title for the x-axis"
+    myUtils.yTitle = "something else for the y-axis"
     
-    #plot a ratio at the bottom
+    #if its the ratioPlotHolder specify the ratio range
 
     myUtils.ratioRange = 0.5 # +- 50%
     
     # we will need a canvas i guess..
     # if you want a ratio you need to do this *after* doRatio is set to True!!
-    myUtils.bookCanvas(2000,1000) 
+    myUtils.bookCanvas(1600,900) 
     
     
     #adjust the xrange
@@ -57,7 +64,7 @@ def example():
     #and now lets draw that stuff
     #first and second argument are xpos and ypos of the legend
     #third argument specifies the plot which is the reference for the ratio
-    myUtils.drawPlots(0.8,0.7,2)
+    myUtils.drawPlots(0.8,0.7)
     
     #you can add text like this
     #it will only work properly after drawPlots ..

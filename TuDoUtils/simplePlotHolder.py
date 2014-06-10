@@ -43,7 +43,7 @@ class simplePlotHolder(plotBase):
         self.is2D=-1 # -1 means unspecified
         plotBase.__init__(self)
 
-      
+
 
     def drawPlots(self, xPos=0.725, yPos=0.80):
         '''
@@ -133,44 +133,26 @@ class simplePlotHolder(plotBase):
         for plot in self.stuffToDraw:
             
 
-                
             if type(plot.thingToDraw) is not type(THStack()):
                 plot.thingToDraw.GetXaxis().SetTitle(self.xTitle)
                 plot.thingToDraw.GetXaxis().SetLabelFont(43)
                 plot.thingToDraw.GetXaxis().SetLabelSize(self.size*1000)
                 plot.thingToDraw.GetXaxis().SetTitleFont(43)
                 plot.thingToDraw.GetXaxis().SetTitleSize(self.size*1200)
-                plot.thingToDraw.GetXaxis().SetTitleOffset(1.1)
-                               
+                plot.thingToDraw.GetXaxis().SetTitleOffset(self.calcBottomTitleOffset())
+                # plot.thingToDraw.GetXaxis().SetTitleOffset(2)
+                pass
             if type(plot.thingToDraw) is not type(THStack()) and type(plot.thingToDraw) is not type(errorBarStack()):
                 plot.thingToDraw.GetYaxis().SetTitle(self.yTitle)
-                plot.thingToDraw.GetYaxis().SetLabelFont(43)
-                
+                plot.thingToDraw.GetYaxis().SetLabelFont(43)     
                 plot.thingToDraw.GetYaxis().SetNdivisions(804,True)
                 plot.thingToDraw.GetYaxis().SetLabelSize(self.size*1000)
                 plot.thingToDraw.GetYaxis().SetTitleFont(43)
-                plot.thingToDraw.GetYaxis().SetTitleSize(self.size*1000)
-
-
-
-                
-                if self.canvas.GetAspectRatio() > 1: #hochformat
-                    #plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    if maximum <= 0:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.2)
-                    elif log(maximum,10) > 4 or log(maximum,10) < -4:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.8)
-                    else:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.6)
-                else:
-                    #plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    if maximum <= 0:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    elif log(maximum,10) > 4 or log(maximum,10) < -4:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.6)
-                    else:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.4)
+                plot.thingToDraw.GetYaxis().SetTitleSize(self.size*1200)
+                plot.thingToDraw.GetYaxis().SetTitleOffset(self.calcLeftTitleOffset())                        
                 plot.thingToDraw.GetYaxis().SetLabelOffset(0.01)
+
+
                 if self.xRange[0] is not self.xRange[1]:
                     plot.thingToDraw.GetXaxis().SetRangeUser(self.xRange[0], self.xRange[1])
             if type(plot.thingToDraw) is type(TF1()):

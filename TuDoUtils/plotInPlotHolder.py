@@ -215,23 +215,32 @@ class plotInPlotHolder(plotBase):
             
 
             if plot.centerPlot==False:
+                
                 if type(plot.thingToDraw) is not type(THStack()):
                     plot.thingToDraw.GetXaxis().SetTitle(self.xTitle)
                     plot.thingToDraw.GetXaxis().SetLabelFont(43)
                     plot.thingToDraw.GetXaxis().SetLabelSize(self.size*1000)
                     plot.thingToDraw.GetXaxis().SetTitleFont(43)
                     plot.thingToDraw.GetXaxis().SetTitleSize(self.size*1200)
-                    plot.thingToDraw.GetXaxis().SetTitleOffset(1.1)
-                                   
+                    plot.thingToDraw.GetXaxis().SetTitleOffset(self.calcBottomTitleOffset())
+                    # plot.thingToDraw.GetXaxis().SetTitleOffset(2)
+                    pass
                 if type(plot.thingToDraw) is not type(THStack()) and type(plot.thingToDraw) is not type(errorBarStack()):
                     plot.thingToDraw.GetYaxis().SetTitle(self.yTitle)
-                    plot.thingToDraw.GetYaxis().SetLabelFont(43)
-                    
+                    plot.thingToDraw.GetYaxis().SetLabelFont(43)     
                     plot.thingToDraw.GetYaxis().SetNdivisions(804,True)
                     plot.thingToDraw.GetYaxis().SetLabelSize(self.size*1000)
                     plot.thingToDraw.GetYaxis().SetTitleFont(43)
-                    plot.thingToDraw.GetYaxis().SetTitleSize(self.size*1000)
+                    plot.thingToDraw.GetYaxis().SetTitleSize(self.size*1200)
             else:
+
+                '''
+                the standard calculation will not really work for the smaller plot
+                keep the old default values there. 
+
+                it should not be that critical as this plot will unlikely be
+                close to the border of the canvas anyways
+                '''
                 if type(plot.thingToDraw) is not type(THStack()):
                     plot.thingToDraw.GetXaxis().SetTitle(self.xTitleMiddle)
                     plot.thingToDraw.GetXaxis().SetLabelFont(43)
@@ -251,24 +260,17 @@ class plotInPlotHolder(plotBase):
                     
                 
             if plot.centerPlot==False: 
-                if self.canvas.GetAspectRatio() > 1: #hochformat
-                    #plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    if maximum <= 0:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    elif log(maximum,10) > 4 or log(maximum,10) < -4:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(0.5)
-                    else:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(0.8)
-                else:
-                    #plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    if maximum <= 0:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    elif log(maximum,10) > 4 or log(maximum,10) < 4:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
-                    else:
-                        plot.thingToDraw.GetYaxis().SetTitleOffset(0.8)
+                plot.thingToDraw.GetYaxis().SetTitleOffset(self.calcLeftTitleOffset())                        
                 plot.thingToDraw.GetYaxis().SetLabelOffset(0.01)
+
+
+                if self.xRange[0] is not self.xRange[1]:
+                    plot.thingToDraw.GetXaxis().SetRangeUser(self.xRange[0], self.xRange[1])
             else:
+
+                '''
+                this is not yet properly optimized. should still work decently
+                '''
                 if maximum_center <= 0:
                     plot.thingToDraw.GetYaxis().SetTitleOffset(1.0)
                 elif log(maximum_center,10) > 4 or log(maximum_center,10) < -4:

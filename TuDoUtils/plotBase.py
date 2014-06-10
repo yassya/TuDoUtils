@@ -79,7 +79,7 @@ class plotBase(object):
         self.canvas = TCanvas("TuDoUtils Canvas", "TuDoUtils Canvas", 10, 10, xSize, ySize)
 
         self.pad1 = TPad("pad1", "pad1", 0, 0, 1, 1, 0, 0, 0)
-        
+
     def saveCanvas(self, fileName):
         '''
         @brief: save the canvas to a file
@@ -301,6 +301,67 @@ class plotBase(object):
         
     def drawPlots(self, xPos=0.725, yPos=0.80, index=1):
         raise(NotImplementedError("This class is kind of abstract (the python way). To draw plots use a class which inherits from this one"))    
+
+
+
+
+
+
+    def calcBottomTitleOffset(self):
+        '''
+        @brief calculates the label offset which depends on the margin size of the pad
+        '''
+        if self.pad1 == None:
+            raise(AttributeError("calcBottomTitleOffset: No pad exists (yet)"))
+
+        bottom_margin = self.pad1.GetBottomMargin()
+
+        '''
+        This has been calculated by trial and error. Will unlikely
+        give decent results if the margin size is less than 0.1 or more than 0.3
+        '''
+        target_offset = 0.4 + 4 * bottom_margin
+        
+        aspect_ratio = self.canvas.GetXsizeReal()/self.canvas.GetYsizeReal()
+
+        aspect_corr = (2 - aspect_ratio) * 0.15
+
+
+        # print(aspect_ratio, aspect_corr)
+
+        target_offset += aspect_corr 
+        return(target_offset)
+
+
+    def calcLeftTitleOffset(self):
+        '''
+        @brief calculates the label offset which depends on the margin size of the pad
+        '''
+        if self.pad1 == None:
+            raise(AttributeError("calcLeftTitleOffset: No pad exists (yet)"))
+
+        left_margin = self.pad1.GetLeftMargin()
+
+        '''
+        This has been calculated by trial and error. Will unlikely
+        give decent results if the margin size is less than 0.1 or more than 0.3
+        '''
+        target_offset = 0.2 + 5 * left_margin
+
+        aspect_ratio = self.canvas.GetXsizeReal()/self.canvas.GetYsizeReal()
+
+        '''
+        You might have guessed it, this extremly trivial function was
+        obtained using a fit again. It was tested for aspect ratios
+        between 0.5 and 2.5 and will give bad results when leaving
+        this region
+        '''
+        aspect_corr=0.8*aspect_ratio*aspect_ratio - 2.75*aspect_ratio + 2.37
+        
+
+        target_offset += aspect_corr 
+
+        return(target_offset)
 
     
     def __del__(self):
